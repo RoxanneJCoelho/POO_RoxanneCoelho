@@ -1,0 +1,5 @@
+package Enums;
+
+public enum ObjetivoVida {
+    O_MELHOR_DA_AREA, CRIAR_EMPRESA, CRIAR_FAMÍLIA, SER_RICO, TER_CASA_BARBIE, VIAJAR_MUNDO
+}
