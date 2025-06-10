@@ -1,7 +1,6 @@
 package POO_RoxanneCoelho.Bens;
 
 public class Bens {
-
     protected String nome;
     protected double custo;
     protected int estatuto;

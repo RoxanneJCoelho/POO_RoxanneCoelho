@@ -103,6 +103,11 @@ import java.util.ArrayList;
             this.familiaJogador = familiaJogador;
         }
 
+        public void adicionarBem(Bens bem) {
+            this.bensMateriais.add(bem);
+        }
+
+
         public void mostrarDetalhes() {
             System.out.println("Nome: " + this.nome);
             System.out.println("Dinheiro: " + this.dinheiro);
@@ -113,7 +118,7 @@ import java.util.ArrayList;
             System.out.println("Necessidade de Refeição: " + this.necessidadeRefeicao);
             System.out.println("Estatuto: " + this.estatuto);
             System.out.println("Educacao: " + this.educacao);
-            System.out.println("POO_RoxanneCoelho.Pessoa.Bens.POO_RoxanneCoelho.Pessoa.Bens Materiais: " + this.bensMateriais);
+            System.out.println("Bens Materiais: " + this.bensMateriais);
             System.out.println("Familia de " + this.nome + ": " + this.familiaJogador);
         }
     }
