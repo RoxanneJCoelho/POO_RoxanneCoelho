@@ -1,21 +1,41 @@
 package POO_RoxanneCoelho.Sims;
 
+import POO_RoxanneCoelho.Bens.Bens;
+import POO_RoxanneCoelho.Bens.Imovel;
 import POO_RoxanneCoelho.Bens.Shopping;
 import POO_RoxanneCoelho.Pessoa.Jogador;
+import POO_RoxanneCoelho.Pessoa.NPC;
 import POO_RoxanneCoelho.Profissao.Profissao;
 import POO_RoxanneCoelho.Enums.ObjetivoVida;
+
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Sims {
 
     private Jogador jogador;
     private Shopping shopping;
+    private ArrayList<NPC> npcs; // NPCs do jogo
+    private boolean casado = false;
+    private int diaAtual = 1;
+    private Random rand = new Random();
 
-    public Sims() {
-        this.shopping = new Shopping();
-        shopping.adicionarImoveis();
-        shopping.adicionarVeiculos();
-        shopping.adicionarAcessoriosModa();
+    // adicionar npcs
+    // Exemplo NPCs:
+            //npcs.add(new NPC("Alice", 500, 10));
+            //npcs.add(new NPC("Bob", 300, 5));
+            //npcs.add(new NPC("Carol", 1000, 20));
+            //npcs.add(new NPC("Dave", 200, 0));
+
+
+    public Sims(Jogador jogador, Shopping shopping, ArrayList<NPC> npcs, boolean casado, int diaAtual, Random rand) {
+        this.jogador = jogador;
+        this.shopping = shopping;
+        this.npcs = npcs;
+        this.casado = casado;
+        this.diaAtual = diaAtual;
+        this.rand = rand;
     }
 
     public void criarPessoa() {
@@ -24,7 +44,7 @@ public class Sims {
         System.out.print("Insira o nome da pessoa: ");
         String nome = input.nextLine();
 
-        System.out.print("Escolha o objetivo de vida (FAMA, RIQUEZA, CONHECIMENTO): ");
+        System.out.print("Escolha o objetivo de vida (PROFESSOR_UNIVERSITARIO, CELEBRIDADE, FAMILIA_COMPLETA, SER_RICO): ");
         ObjetivoVida objetivo = ObjetivoVida.valueOf(input.nextLine().toUpperCase());
 
         System.out.print("Escolha a profissão (nome apenas, salário será definido automaticamente): ");
@@ -33,6 +53,18 @@ public class Sims {
 
         jogador = new Jogador(nome, 0, objetivo, profissao, 100, 100, 100, 0, 0);
         System.out.println("Jogador criado com sucesso!\n");
+    }
+
+    public boolean temPropriedadeParaCasar() {
+        for (Bens bem : jogador.getBensMateriais()) {
+            if (bem instanceof Imovel) {  // Verifica se o bem é um Imóvel
+                Imovel imovel = (Imovel) bem;
+                if (imovel.getCapacidadePessoas() >= 2) {  // Verifica capacidade
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public void jogo() {
@@ -121,7 +153,46 @@ public class Sims {
             jogador.setNecessidadeSocial(jogador.getNecessidadeSocial() - 15);
 
             dia++;
+
+            // Evento obrigatório no dia 5: universidade
+            if (dia == 5) {
+                System.out.println("Deseja ir para a universidade? (s/n)");
+                String escolhaUni = input.next().toLowerCase();
+
+                if (escolhaUni.equals("s")) {
+                    jogador.setEducacao(jogador.getEducacao() + 50);
+                    jogador.setDinheiro(jogador.getDinheiro() - 3000);
+                    System.out.println("Inscreveu-se na universidade. Educação aumentou, mas contraiu uma dívida de 3000.");
+                } else {
+                    System.out.println("Decidiu não ir para a universidade.");
+                }
+            }
+
+            // Evento obrigatório no dia 22: casamento
+            if (dia == 22) {
+                System.out.println("Deseja casar-se hoje? (s/n)");
+                String escolhaCasar = input.next().toLowerCase();
+
+                if (escolhaCasar.equals("s")) {
+                    if (temPropriedadeParaCasar()) {
+                        // Casamento simples com NPC aleatório compatível
+                        NPC parceiro = npcs.get(rand.nextInt(npcs.size()));
+                        jogador.getFamiliaJogador().add(parceiro);
+                        jogador.setDinheiro(jogador.getDinheiro() + parceiro.getDinheiro());
+                        casado = true;
+                        System.out.println("Casou-se com " + parceiro.getNome() + " e ganhou " +
+                                parceiro.getDinheiro() + " dinheiros do cônjuge!");
+                    } else {
+                        System.out.println("Não pode casar sem uma propriedade que acomode 2 pessoas.");
+                    }
+                } else {
+                    System.out.println("Decidiu não casar hoje.");
+                }
+            }
         }
     }
+
+
 }
+
 
