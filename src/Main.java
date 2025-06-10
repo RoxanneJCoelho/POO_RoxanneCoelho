@@ -1,5 +1,9 @@
+import POO_RoxanneCoelho.Sims.Sims;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        Sims game = new Sims();
+        game.criarPessoa();
+        game.jogo();
     }
 }

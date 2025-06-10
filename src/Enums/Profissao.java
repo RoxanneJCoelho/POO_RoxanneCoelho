@@ -1,5 +1,0 @@
-package Enums;
-
-public enum Profissao {
-    DESEMPREGADA, PROFESSORA, ATENDENTE_BALCAO, BIOLOGA, INFORMATICA
-}
