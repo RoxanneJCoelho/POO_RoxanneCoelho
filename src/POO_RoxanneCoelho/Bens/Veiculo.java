@@ -45,4 +45,16 @@ public class Veiculo extends Bens {
         return modelo;
     }
 
+    /**
+     * Imprimir os detalhes completos do veículo.
+     * Primeiro, chama o método da superclasse para mostrar o nome, custo e estatuto.
+     * Depois, imprime também a marca e o modelo.
+     */
+
+    @Override
+    public void mostrarDetalhesBens() {
+        super.mostrarDetalhesBens();
+        System.out.println("Marca: " + this.marca);
+        System.out.println("Modelo: " + this.modelo);
+    }
 }

@@ -44,4 +44,17 @@ public class AcessorioModa extends Bens {
     public boolean getFormal() {
         return formal;
     }
+
+    /**
+     * Imprimir os detalhes completos do acessório.
+     * Primeiro, chama o método da superclasse para mostrar o nome, custo e estatuto.
+     * Depois, imprime também a marca e se o acessório é formal ou não.
+     */
+
+    @Override
+    public void mostrarDetalhesBens() {
+        super.mostrarDetalhesBens();
+        System.out.println("Marca: " + this.marca);
+        System.out.println("Formal: " + this.formal);
+    }
 }

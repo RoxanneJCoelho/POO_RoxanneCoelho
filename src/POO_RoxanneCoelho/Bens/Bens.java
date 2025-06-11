@@ -54,5 +54,13 @@ public class Bens {
         return estatuto;
     }
 
+    /**
+     * Imprimir no ecrã os detalhes completos dum bem: o seu nome, o seu custo e o nível atual do seu estatuto.
+     */
+
+    public void mostrarDetalhesBens(){
+        System.out.println(this.nome + " | Custo:  " + this.custo + " | Estatuto: " + this.estatuto);
+    }
+
 }
 

@@ -31,4 +31,16 @@ public class Imovel extends Bens {
     public int getCapacidadePessoas() {
         return capacidadePessoas;
     }
+
+    /**
+     * Imprimir os detalhes completos do imóvel.
+     * Primeiro, chama o método da superclasse para mostrar o nome, custo e estatuto.
+     * Depois, imprime também a capacidade máxima de pessoas.
+     */
+
+    @Override
+    public void mostrarDetalhesBens() {
+        super.mostrarDetalhesBens();
+        System.out.println("Capacidade máxima de pessoas: " + this.capacidadePessoas);
+    }
 }

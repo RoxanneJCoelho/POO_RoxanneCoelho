@@ -12,7 +12,7 @@ public abstract class Pessoa {
      * Construtor da classe Pessoa.
      *
      * @param nome o nome da pessoa
-     * @param dinheiro a quantidade de dinheiro
+     * @param dinheiro a quantidade de dinheiro que a pessoa possui
      */
 
     public Pessoa(String nome, double dinheiro) {
@@ -32,9 +32,9 @@ public abstract class Pessoa {
     }
 
     /**
-     * Obter a quantia de dinheiro da pessoa.
+     * Obter a quantidade de dinheiro da pessoa.
      *
-     * @return o valor em dinheiro
+     * @return a quantidade de dinheiro
      */
 
     public double getDinheiro() {
@@ -45,7 +45,7 @@ public abstract class Pessoa {
     /**
      * Atualizar a quantidade de dinheiro da pessoa.
      *
-     * @param dinheiro o novo valor de dinheiro
+     * @param dinheiro a nova quantidade de dinheiro
      */
 
     public void setDinheiro(double dinheiro) {
