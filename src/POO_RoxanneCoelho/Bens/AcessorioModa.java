@@ -1,8 +1,22 @@
 package POO_RoxanneCoelho.Bens;
 
+/**
+ * Representa um acessório de moda (uma subclasse de bem) que pode ser adquirido pelo jogador, com atributos como marca e formal.
+ */
+
 public class AcessorioModa extends Bens {
     private String marca;
     private boolean formal;
+
+    /**
+     * Construtor da classe AcessorioModa.
+     *
+     * @param nome o nome do acessório
+     * @param custo o custo do acessório
+     * @param estatuto o nível de estatuto do acessório
+     * @param marca a marca do acessório
+     * @param formal true se for um acessório formal; false caso seja informal
+     */
 
     public AcessorioModa(String nome, double custo, int estatuto, String marca, boolean formal) {
         super(nome, custo, estatuto);
@@ -10,11 +24,24 @@ public class AcessorioModa extends Bens {
         this.formal = formal;
     }
 
+    // Getters
+    /**
+     * Obter a marca do acessório.
+     *
+     * @return a marca do acessório
+     */
+
     public String getMarca() {
         return marca;
     }
 
-    public boolean isFormal() {
+    /**
+     * Indicar se o acessório é formal ou informal
+     *
+     * @return true se for um acessório formal; false caso seja informal
+     */
+
+    public boolean getFormal() {
         return formal;
     }
 }
