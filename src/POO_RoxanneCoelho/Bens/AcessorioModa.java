@@ -11,11 +11,11 @@ public class AcessorioModa extends Bens {
     /**
      * Construtor da classe AcessorioModa.
      *
-     * @param nome o nome do acessório
-     * @param custo o custo do acessório
+     * @param nome     o nome do acessório
+     * @param custo    o custo do acessório
      * @param estatuto o nível de estatuto do acessório
-     * @param marca a marca do acessório
-     * @param formal true se for um acessório formal; false se for informal
+     * @param marca    a marca do acessório
+     * @param formal   true se for um acessório formal; false se for informal
      */
 
     public AcessorioModa(String nome, double custo, int estatuto, String marca, boolean formal) {
@@ -25,6 +25,7 @@ public class AcessorioModa extends Bens {
     }
 
     // Getters
+
     /**
      * Obter a marca do acessório.
      *

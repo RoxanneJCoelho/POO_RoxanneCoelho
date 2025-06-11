@@ -12,8 +12,8 @@ public class Bens {
     /**
      * Construtor da classe Bens.
      *
-     * @param nome o nome do bem
-     * @param custo o custo do bem
+     * @param nome     o nome do bem
+     * @param custo    o custo do bem
      * @param estatuto o nível de estatuto do bem
      */
 
@@ -24,6 +24,7 @@ public class Bens {
     }
 
     // Getters
+
     /**
      * Obter o nome do bem.
      *
@@ -58,7 +59,7 @@ public class Bens {
      * Imprimir no ecrã os detalhes completos dum bem: o seu nome, o seu custo e o nível atual do seu estatuto.
      */
 
-    public void mostrarDetalhesBens(){
+    public void mostrarDetalhesBens() {
         System.out.println(this.nome + " | Custo:  " + this.custo + " | Estatuto: " + this.estatuto);
     }
 

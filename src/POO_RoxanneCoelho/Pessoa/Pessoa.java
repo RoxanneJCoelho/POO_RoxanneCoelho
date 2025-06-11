@@ -11,7 +11,7 @@ public abstract class Pessoa {
     /**
      * Construtor da classe Pessoa.
      *
-     * @param nome o nome da pessoa
+     * @param nome     o nome da pessoa
      * @param dinheiro a quantidade de dinheiro que a pessoa possui
      */
 
@@ -20,7 +20,8 @@ public abstract class Pessoa {
         this.dinheiro = dinheiro;
     }
 
-    //Getters
+    // Getters
+
     /**
      * Obter o nome da pessoa.
      *
@@ -41,7 +42,8 @@ public abstract class Pessoa {
         return dinheiro;
     }
 
-    //Setters
+    // Setters
+
     /**
      * Atualizar a quantidade de dinheiro da pessoa.
      *

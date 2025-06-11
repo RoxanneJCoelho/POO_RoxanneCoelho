@@ -10,9 +10,9 @@ public class Imovel extends Bens {
     /**
      * Construtor da classe Imovel.
      *
-     * @param nome o nome do imóvel
-     * @param custo o custo do imóvel
-     * @param estatuto o nível de estatuto do imóvel
+     * @param nome              o nome do imóvel
+     * @param custo             o custo do imóvel
+     * @param estatuto          o nível de estatuto do imóvel
      * @param capacidadePessoas a capacidade máxima de pessoas do imóvel
      */
 
@@ -22,6 +22,7 @@ public class Imovel extends Bens {
     }
 
     //Getters
+
     /**
      * Obter a capacidade máxima de pessoas que o imóvel pode acomodar.
      *

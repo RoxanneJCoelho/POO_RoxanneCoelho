@@ -11,11 +11,11 @@ public class Veiculo extends Bens {
     /**
      * Construtor da classe Veiculo.
      *
-     * @param nome o nome do veículo
-     * @param custo o custo do veículo
+     * @param nome     o nome do veículo
+     * @param custo    o custo do veículo
      * @param estatuto o nível de estatuto do veículo
-     * @param marca a marca do veículo
-     * @param modelo o modelo do veículo
+     * @param marca    a marca do veículo
+     * @param modelo   o modelo do veículo
      */
 
     public Veiculo(String nome, double custo, int estatuto, String marca, String modelo) {
@@ -25,6 +25,7 @@ public class Veiculo extends Bens {
     }
 
     //Getters
+
     /**
      * Obter a marca do veículo.
      *

@@ -55,7 +55,6 @@ public class Jogador extends Pessoa {
      *
      * @return o objetivo de Vida do jogador
      */
-
     public ObjetivoVida getObjetivoVida() {
         return objetivoVida;
     }
@@ -65,7 +64,6 @@ public class Jogador extends Pessoa {
      *
      * @return a profissão do jogador
      */
-
     public Profissao getProfissao() {
         return profissao;
     }
@@ -75,8 +73,6 @@ public class Jogador extends Pessoa {
      *
      * @return a necessidade de sono do jogador
      */
-
-
     public int getNecessidadeSono() {
         return necessidadeSono;
     }
@@ -86,7 +82,6 @@ public class Jogador extends Pessoa {
      *
      * @return a necessidade de refeição do jogador
      */
-
     public int getNecessidadeRefeicao() {
         return necessidadeRefeicao;
     }
@@ -96,67 +91,140 @@ public class Jogador extends Pessoa {
      *
      * @return a necessidade social do jogador
      */
-
     public int getNecessidadeSocial() {
         return necessidadeSocial;
     }
 
+    /**
+     * Obter o nível de estatuto do jogador.
+     *
+     * @return o nível de estatuto do jogador
+     */
     public int getEstatuto() {
         return estatuto;
     }
 
+    /**
+     * Obter o nível de escolaridade do jogador.
+     *
+     * @return o nível de escolaridade do jogador
+     */
     public int getEscolaridade() {
         return escolaridade;
     }
 
+    // Setters
+
+    /**
+     * Atualizar o objetivo de vida do jogador.
+     *
+     * @param objetivoVida o novo objetivo de vida
+     */
     public void setObjetivoVida(ObjetivoVida objetivoVida) {
         this.objetivoVida = objetivoVida;
     }
 
+    /**
+     * Atualizar a profissão do jogador.
+     *
+     * @param profissao a nova profissão
+     */
     public void setProfissao(Profissao profissao) {
         this.profissao = profissao;
     }
 
+    /**
+     * Atualizar a necessidade de sono do jogador.
+     *
+     * @param necessidadeSono o novo valor da necessidade de sono
+     */
     public void setNecessidadeSono(int necessidadeSono) {
         this.necessidadeSono = necessidadeSono;
     }
 
+    /**
+     * Atualizar a necessidade de refeição do jogador.
+     *
+     * @param necessidadeRefeicao o novo valor da necessidade de refeição
+     */
     public void setNecessidadeRefeicao(int necessidadeRefeicao) {
         this.necessidadeRefeicao = necessidadeRefeicao;
     }
 
+    /**
+     * Definir a necessidade social do jogador.
+     *
+     * @param necessidadeSocial o novo valor da necessidade social
+     */
     public void setNecessidadeSocial(int necessidadeSocial) {
         this.necessidadeSocial = necessidadeSocial;
     }
 
+    /**
+     * Atualizar o nível de estatuto do jogador.
+     *
+     * @param estatuto o novo nível do estatuto
+     */
     public void setEstatuto(int estatuto) {
         this.estatuto = estatuto;
     }
+
+    /**
+     * Atualizar o nível de escolaridade do jogador.
+     *
+     * @param escolaridade o novo nível de escolaridade
+     */
 
     public void setEscolaridade(int escolaridade) {
         this.escolaridade = escolaridade;
     }
 
+    /**
+     * Adicionar um bem material à lista de bens materiais do jogador.
+     *
+     * @param bens o novo bem material
+     */
     public void adicionarBem(Bens bens) {
         this.bensMateriais.add(bens);
     }
-
+    /**
+     * Adicionar um membro à família do jogador.
+     *
+     * @param npc o novo membro da família
+     */
     public void adicionarfamilia(NPC npc) {
         this.familiaJogador.add(npc);
     }
 
+    /**
+     * Remover um bem material da lista de bens materiais do jogador.
+     *
+     * @param bens o bem material a ser removido
+     */
     public void removerBem(Bens bens) {
         this.bensMateriais.remove(bens);
     }
 
+    /**
+     * Remover um membro da família do jogador.
+     *
+     * @param npc o membro da família a ser removido
+     */
     public void removerfamilia(NPC npc) {
         this.familiaJogador.remove(npc);
     }
 
+    /**
+     * Imprimir no ecrã os detalhes completos dum jogador:
+     * o seu nome, o seu dinheiro, o seu objetivo de Vida, a sua profissão,
+     * as necessidades, o nível de estatuto, de escolaridade,
+     * a lista de bens materiais e da família
+     */
+
     public void mostrarDetalhes() {
         System.out.println("Nome: " + this.nome);
         System.out.println("Dinheiro: " + this.dinheiro);
-        System.out.println("Objetivo de vida: " + this.objetivoVida);
+        System.out.println("Objetivo de Vida: " + this.objetivoVida);
         System.out.println("Profissão: " + this.profissao);
         System.out.println("Necessidade de Sono: " + this.necessidadeSono);
         System.out.println("Necessidade Social: " + this.necessidadeSocial);

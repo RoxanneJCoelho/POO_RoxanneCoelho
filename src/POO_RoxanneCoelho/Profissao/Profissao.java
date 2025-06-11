@@ -15,10 +15,10 @@ public class Profissao {
     /**
      * Construtor da classe Profissao.
      *
-     * @param nome o nome da profissão
-     * @param salarioDia o valor do salário por dia da profissão
-     * @param formal true se for uma profissão formal; false se for informal
-     * @param estatuto o valor de estatuto da profissão
+     * @param nome                    o nome da profissão
+     * @param salarioDia              o valor do salário por dia da profissão
+     * @param formal                  true se for uma profissão formal; false se for informal
+     * @param estatuto                o valor de estatuto da profissão
      * @param nivelMinimoEscolaridade o nível mínimo de escolaridade necessário
      */
 
@@ -31,6 +31,7 @@ public class Profissao {
     }
 
     // Getters
+
     /**
      * Obter o nome da profissão.
      *

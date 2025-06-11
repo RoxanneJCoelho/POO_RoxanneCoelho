@@ -10,8 +10,8 @@ public class NPC extends Pessoa {
     /**
      * Construtor da classe NPC.
      *
-     * @param nome o nome do NPC
-     * @param dinheiro  a quantidade de dinheiro que o NPC possui
+     * @param nome           o nome do NPC
+     * @param dinheiro       a quantidade de dinheiro que o NPC possui
      * @param estatutoMinimo o nível mínimo de estatuto que o NPC deve possuir para interagir com o jogador
      */
 
@@ -21,6 +21,7 @@ public class NPC extends Pessoa {
     }
 
     //Getters
+
     /**
      * Obter o estatuto do NPC.
      *
@@ -35,7 +36,7 @@ public class NPC extends Pessoa {
      * Imprimir no ecrã os detalhes completos dum NPC: o seu nome, o seu dinheiro e o seu estatuto.
      */
 
-    public void mostrarNPC(){
+    public void mostrarNPC() {
         System.out.println(this.nome + " | Dinheiro:  " + this.dinheiro + " | Estatuto Mínimo: " + this.estatutoMinimo);
     }
 }
