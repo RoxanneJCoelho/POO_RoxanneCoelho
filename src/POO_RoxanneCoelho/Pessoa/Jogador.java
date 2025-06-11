@@ -31,9 +31,6 @@ import java.util.ArrayList;
             this.familiaJogador = new ArrayList<NPC>();
         }
 
-        public ObjetivoVida getObjetivoVida() {
-            return objetivoVida;
-        }
 
         public Profissao getProfissao() {
             return profissao;

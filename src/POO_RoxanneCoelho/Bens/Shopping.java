@@ -103,7 +103,7 @@ public class Shopping {
 
         } while (opcao != 0);
     }
-    public void comprar(Jogador jogador) {
+    public void vender(Jogador jogador) {
         if (coisasParaComprar.isEmpty()) {
             System.out.println("Não há itens disponíveis para comprar.");
             return;

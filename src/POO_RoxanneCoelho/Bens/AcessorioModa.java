@@ -15,7 +15,7 @@ public class AcessorioModa extends Bens {
      * @param custo o custo do acessório
      * @param estatuto o nível de estatuto do acessório
      * @param marca a marca do acessório
-     * @param formal true se for um acessório formal; false caso seja informal
+     * @param formal true se for um acessório formal; false se for informal
      */
 
     public AcessorioModa(String nome, double custo, int estatuto, String marca, boolean formal) {
@@ -36,9 +36,9 @@ public class AcessorioModa extends Bens {
     }
 
     /**
-     * Indicar se o acessório é formal ou informal
+     * Indicar se o acessório é formal ou informal.
      *
-     * @return true se for um acessório formal; false caso seja informal
+     * @return true se for um acessório formal; false se for informal
      */
 
     public boolean getFormal() {
