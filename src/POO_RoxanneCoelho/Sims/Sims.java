@@ -9,33 +9,15 @@ import POO_RoxanneCoelho.Profissao.Profissao;
 import POO_RoxanneCoelho.Enums.ObjetivoVida;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 
+import static POO_RoxanneCoelho.Profissao.Profissao.inicializarProfissoes;
+
 public class Sims {
-
     private Jogador jogador;
-    private Shopping shopping;
-    private ArrayList<NPC> npcs; // NPCs do jogo
-    private boolean casado = false;
-    private int diaAtual = 1;
-    private Random rand = new Random();
 
-    // adicionar npcs
-    // Exemplo NPCs:
-            //npcs.add(new NPC("Alice", 500, 10));
-            //npcs.add(new NPC("Bob", 300, 5));
-            //npcs.add(new NPC("Carol", 1000, 20));
-            //npcs.add(new NPC("Dave", 200, 0));
-
-
-    public Sims(Jogador jogador, Shopping shopping, ArrayList<NPC> npcs, boolean casado, int diaAtual, Random rand) {
+    public Sims(Jogador jogador) {
         this.jogador = jogador;
-        this.shopping = shopping;
-        this.npcs = npcs;
-        this.casado = casado;
-        this.diaAtual = diaAtual;
-        this.rand = rand;
     }
 
     public void criarPessoa() {
@@ -45,74 +27,43 @@ public class Sims {
         String nome = input.nextLine();
 
         System.out.print("Escolha o objetivo de vida (PROFESSOR_UNIVERSITARIO, CELEBRIDADE, FAMILIA_COMPLETA, SER_RICO): ");
-        ObjetivoVida objetivo = ObjetivoVida.valueOf(input.nextLine().toUpperCase());
+        ObjetivoVida objetivo = ObjetivoVida.valueOf(input.nextLine().toUpperCase()); // cuidado aqui, tens que alterar isto!
 
         System.out.print("Escolha a profissão (nome apenas, salário será definido automaticamente): ");
         String nomeProfissao = input.nextLine();
         Profissao profissao = new Profissao(nomeProfissao, 100, false, 0, 0); // exemplo
 
-        jogador = new Jogador(nome, 0, objetivo, profissao, 100, 100, 100, 0, 0);
-        System.out.println("Jogador criado com sucesso!\n");
-    }
-
-    public boolean temPropriedadeParaCasar() {
-        for (Bens bem : jogador.getBensMateriais()) {
-            if (bem instanceof Imovel) {  // Verifica se o bem é um Imóvel
-                Imovel imovel = (Imovel) bem;
-                if (imovel.getCapacidadePessoas() >= 2) {  // Verifica capacidade
-                    return true;
-                }
-            }
-        }
-        return false;
+        this.jogador = new Jogador(nome, 0, objetivo, profissao, 100, 100, 100, 0, 0); // usa o atributo
+        System.out.println("Jogador criado com sucesso!\n Bem vind@" + jogador.getNome());
     }
 
     public void jogo() {
         Scanner input = new Scanner(System.in);
         int dia = 1;
 
-        while (true) {
-            System.out.println("Dia " + dia);
+        while (dia < 100) {
+            System.out.println("Dia nº " + dia);
+            String[] momentoDia = {"Manhã", "Meio-dia", "Tarde", "Noite"};
+            for (String momento : momentoDia) {
+                System.out.println("Momento do dia: " + momento);
+                jogador.mostrarDetalhes();
+                System.out.println("O que queres fazer?");
+                System.out.println("1 - Ir trabalhar");
+                System.out.println("2 - Dormir");
+                System.out.println("3 - Ter uma refeição");
+                System.out.println("4 - Falar com alguém / Jogar Computador / Praticar Hobby");
+                System.out.println("5 - Ir ao Shopping");
+                System.out.println("6 - Ter formação");
+                System.out.println("7 - Procurar outra profissao");
+                System.out.println("0 - Sair do jogo");
+                System.out.println("Insira uma opção: ");
 
-            for (String momento : new String[]{"Manhã", "Meio-dia", "Tarde", "Noite"}) {
-                System.out.println("\nMomento do dia: " + momento);
+                int opcao = input.nextInt();
 
-                // Necessidades abaixo de 25 bloqueiam outras ações
-                if (jogador.getNecessidadeSono() < 25) {
-                    System.out.println("Está demasiado cansado. Precisa de dormir.");
-                    jogador.setNecessidadeSono(100);
-                    continue;
-                }
-                if (jogador.getNecessidadeRefeicao() < 25) {
-                    System.out.println("Está com fome. Precisa de comer.");
-                    jogador.setNecessidadeRefeicao(100);
-                    jogador.setDinheiro(jogador.getDinheiro() - 5);
-                    continue;
-                }
-                if (jogador.getNecessidadeSocial() < 25) {
-                    System.out.println("Está carente. Precisa socializar.");
-                    jogador.setNecessidadeSocial(100);
-                    continue;
-                }
-
-                System.out.println("""
-                        Escolha uma ação:
-                        1. Ir trabalhar
-                        2. Dormir
-                        3. Ter uma refeição
-                        4. Socializar
-                        5. Ir às compras
-                        6. Ter formação
-                        7. Visitar propriedades
-                        8. Procurar nova profissão
-                        0. Sair do jogo
-                        """);
-                int escolha = input.nextInt();
-
-                switch (escolha) {
+                switch (opcao) {
                     case 1:
                         jogador.setDinheiro(jogador.getDinheiro() + jogador.getProfissao().getSalarioDia());
-                        System.out.println("Ganhou " + jogador.getProfissao().getSalarioDia() + " dinheiros.");
+                        System.out.println("Ganhou " + jogador.getProfissao().getSalarioDia() + " euros.");
                         break;
                     case 2:
                         jogador.setNecessidadeSono(100);
@@ -125,19 +76,18 @@ public class Sims {
                         jogador.setNecessidadeSocial(100);
                         break;
                     case 5:
-                        shopping.hallShopping(jogador);
+                        Shopping meuShopping = new Shopping(jogador);
+                        meuShopping.vender(jogador);
                         break;
                     case 6:
-                        jogador.setEducacao(jogador.getEducacao() + 2);
+                        jogador.setEscolaridade(jogador.getEscolaridade() + 2);
                         break;
                     case 7:
                         System.out.println("Propriedades:");
-                        for (var b : jogador.getBensMateriais()) {
-                            System.out.println(b);
-                        }
+                        jogador.mostrarDetalhes();
                         break;
                     case 8:
-                        System.out.println("Funcionalidade de nova profissão ainda por implementar.");
+                        inicializarProfissoes();
                         break;
                     case 0:
                         System.out.println("A sair do jogo...");
@@ -152,6 +102,7 @@ public class Sims {
             jogador.setNecessidadeRefeicao(jogador.getNecessidadeRefeicao() - 20);
             jogador.setNecessidadeSocial(jogador.getNecessidadeSocial() - 15);
 
+
             dia++;
 
             // Evento obrigatório no dia 5: universidade
@@ -160,7 +111,7 @@ public class Sims {
                 String escolhaUni = input.next().toLowerCase();
 
                 if (escolhaUni.equals("s")) {
-                    jogador.setEducacao(jogador.getEducacao() + 50);
+                    jogador.setEscolaridade(jogador.getEscolaridade() + 50);
                     jogador.setDinheiro(jogador.getDinheiro() - 3000);
                     System.out.println("Inscreveu-se na universidade. Educação aumentou, mas contraiu uma dívida de 3000.");
                 } else {
@@ -168,31 +119,89 @@ public class Sims {
                 }
             }
 
-            // Evento obrigatório no dia 22: casamento
-            if (dia == 22) {
-                System.out.println("Deseja casar-se hoje? (s/n)");
-                String escolhaCasar = input.next().toLowerCase();
+            // Evento do dia 22: casamento
 
-                if (escolhaCasar.equals("s")) {
-                    if (temPropriedadeParaCasar()) {
-                        // Casamento simples com NPC aleatório compatível
-                        NPC parceiro = npcs.get(rand.nextInt(npcs.size()));
-                        jogador.getFamiliaJogador().add(parceiro);
-                        jogador.setDinheiro(jogador.getDinheiro() + parceiro.getDinheiro());
-                        casado = true;
-                        System.out.println("Casou-se com " + parceiro.getNome() + " e ganhou " +
-                                parceiro.getDinheiro() + " dinheiros do cônjuge!");
+
+            // Evento que vai do dia 22 ao 60: filhos
+
+            // Evento á nossa escolha nº1: acidente de carro!
+            if (dia == 30) {
+                System.out.println("Tiveste um acidente de carro, vais ter uma despesa grande para arranjar o carro!");
+                jogador.setDinheiro(jogador.getDinheiro() - 300);
+            }
+
+            // Evento á nossa escolha nº2: heranca
+            if (dia == 50) {
+                System.out.println("Ganhaste de herança um apartamento!");
+
+                // Criar o apartamento herdado
+                Imovel apartamento = new Imovel("Apartamento de herança", 0, 20, 3); // nome, custo, estatuto
+
+                // Adicionar à lista de bens do jogador
+                jogador.adicionarBem(apartamento);
+
+                // Aumentar o estatuto do jogador com o valor do imóvel
+                jogador.setEstatuto(jogador.getEstatuto() + apartamento.getEstatuto());
+
+                System.out.println("Estatuto aumentado! Novo estatuto: " + jogador.getEstatuto());
+            }
+
+            // Evento á nossa escolha nº3: jogar no euromilhoes
+            if (dia == 35) {
+                System.out.println("Evento especial: Euromilhões!");
+
+                if (jogador.getDinheiro() >= 10) {
+                    jogador.setDinheiro(jogador.getDinheiro() - 10);
+                    System.out.println("Pagou 10€ para jogar no Euromilhões.");
+
+                    System.out.print("Escolhe um número entre 1 e 200: ");
+                    int numeroJogador = input.nextInt();
+
+                    int numeroSorteado = (int) (Math.random() * 200) + 1;
+
+                    if (numeroJogador == numeroSorteado) {
+                        jogador.setDinheiro(jogador.getDinheiro() + 1_000_000);
+                        System.out.println("Parabéns!!! Ganhou 1.000.000€!");
                     } else {
-                        System.out.println("Não pode casar sem uma propriedade que acomode 2 pessoas.");
+                        System.out.println("Não foi desta vez. O número sorteado foi: " + numeroSorteado);
                     }
+
                 } else {
-                    System.out.println("Decidiu não casar hoje.");
+                    System.out.println("Dinheiro insuficiente para jogar no Euromilhões.");
                 }
             }
+
+            // Exemplo: Dia 10 - Festa surpresa
+            if (dia == 10) {
+                System.out.println("Foste a uma festa surpresa com amigos! +10 à necessidade social.");
+                jogador.setNecessidadeSocial(Math.min(jogador.getNecessidadeSocial() + 10, 100));
+            }
+
+            // Exemplo: Dia 15 - Doença leve
+            if (dia == 15) {
+                System.out.println("Apanhaste uma doença leve. Precisas de descansar.");
+                jogador.setNecessidadeSono(jogador.getNecessidadeSono() - 20);
+            }
+
+            // Exemplo: Dia 25 - Compra de carro
+            if (dia == 25) {
+                double precoCarro = 10000;
+                System.out.println("Oportunidade de comprar um carro por " + precoCarro + " euros. Queres comprar? (1-Sim / 0-Não)");
+                int opcao = input.nextInt();
+                if (opcao == 1 && jogador.getDinheiro() >= precoCarro) {
+                    jogador.setDinheiro(jogador.getDinheiro() - precoCarro);
+                    jogador.setEstatuto(jogador.getEstatuto() + 15);
+                    System.out.println("Compraste um carro! +15 ao estatuto.");
+                } else {
+                    System.out.println("Não compraste o carro.");
+                }
+            }
+
+
         }
+
+
     }
 
-
 }
-
 

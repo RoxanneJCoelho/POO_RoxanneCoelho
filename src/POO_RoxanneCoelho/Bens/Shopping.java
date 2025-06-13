@@ -6,13 +6,15 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Shopping {
+    private Jogador jogador;
     private ArrayList<Bens> coisasParaComprar;
 
-    public Shopping() {
+    public Shopping(Jogador jogador) {
+        this.jogador = jogador;
         this.coisasParaComprar = new ArrayList<Bens>();
     }
 
-    public void adicionarItem(Bens bens) {
+        public void adicionarItem(Bens bens) {
         this.coisasParaComprar.add(bens);
     }
 
@@ -55,17 +57,126 @@ public class Shopping {
         adicionarItem(new AcessorioModa("Chapéu de Sol", 30, 3, "H&M", false));
     }
 
-    // Método que imprime todos os itens disponíveis
-    public void listarItens() {
+    public void mostrarImoveis() {
         int i = 1;
         for (Bens bens : coisasParaComprar) {
-            System.out.println(i + ". " + bens);
-            i++;
+            if (bens instanceof Imovel) {
+                System.out.println("Imóvel número: " + i);
+                bens.mostrarDetalhesBens();
+                System.out.println();
+                i++;
+            }
         }
     }
 
-    // Método principal de venda
-    public void hallShopping(Jogador jogador) {
+
+
+    public void mostrarVeiculo() {
+        int i = 1;
+        for (Bens bens : coisasParaComprar) {
+            if (bens instanceof Veiculo) {
+                System.out.println("Veículo número: " + i);
+                bens.mostrarDetalhesBens();
+                System.out.println();
+                i++;
+            }
+        }
+    }
+
+    public void mostrarAcessorio() {
+        int i = 1;
+        for (Bens bens : coisasParaComprar) {
+            if (bens instanceof AcessorioModa) {
+                System.out.println("Acessório número: " + i);
+                bens.mostrarDetalhesBens();
+                System.out.println();
+                i++;
+            }
+        }
+    }
+
+    public void comprarBem(Jogador jogador, int indice) {
+
+        Bens bemEscolhido = coisasParaComprar.get(indice);
+        double preco = bemEscolhido.getCusto();
+
+        if (jogador.getDinheiro() >= preco) {
+            jogador.setDinheiro(jogador.getDinheiro() - preco);  // Tirar o dinheiro do jogador
+            jogador.adicionarBem(bemEscolhido);                  // Adicionar bem à lista do jogador
+            jogador.setEstatuto(jogador.getEstatuto() + bemEscolhido.getEstatuto()); // Aumentar estatuto
+            System.out.println("Compra efetuada: " + bemEscolhido.getNome());
+        } else {
+            System.out.println("Dinheiro insuficiente para comprar " + bemEscolhido.getNome());
+        }
+    }
+
+    public void imprimirImoveis(){
+            Scanner input = new Scanner(System.in);
+            int opcao;
+
+            do {
+                System.out.println("\nBem-vindo á Imobiliaria! O que deseja comprar?");
+                mostrarImoveis();
+
+                System.out.print("Insira o número do item que quer comprar (ou prima '11' para sair): ");
+                opcao = input.nextInt();
+
+                if (opcao >= 1 && opcao <= 10) {
+                    comprarBem(jogador, opcao - 1); // corrigido para índice
+                } else if (opcao == 11) {
+                    System.out.println("Obrigada por visitar a Imobiliária, volte sempre!");
+                } else {
+                    System.out.println("Opção inválida! Por favor, escolha novamente.");
+                }
+            } while (opcao != 11);
+    }
+
+    public void imprimirVeiculo(){
+        Scanner input = new Scanner(System.in);
+        int opcao;
+
+        do {
+            System.out.println("\nBem-vindo ao Stand! O que deseja comprar?");
+            mostrarVeiculo();
+
+            System.out.print("Insira o número do item que quer comprar (ou prima '11' para sair): ");
+            opcao = input.nextInt();
+
+            if (opcao >= 1 && opcao <= 10) {
+                comprarBem(jogador, opcao - 1); // corrigido para índice
+            } else if (opcao == 11) {
+                System.out.println("Obrigada por visitar a Imobiliária, volte sempre!");
+            } else {
+                System.out.println("Opção inválida! Por favor, escolha novamente.");
+            }
+        } while (opcao != 11);
+    }
+
+    public void imprimirAcessorio(){
+        Scanner input = new Scanner(System.in);
+        int opcao;
+
+        do {
+            System.out.println("\nBem-vindo ao Fashion Outlet! O que deseja comprar?");
+            mostrarAcessorio();
+
+            System.out.print("Insira o número do item que quer comprar (ou prima '11' para sair): ");
+            opcao = input.nextInt();
+
+            if (opcao >= 1 && opcao <= 10) {
+                comprarBem(jogador, opcao - 1); // corrigido para índice
+            } else if (opcao == 11) {
+                System.out.println("Obrigada por visitar a Imobiliária, volte sempre!");
+            } else {
+                System.out.println("Opção inválida! Por favor, escolha novamente.");
+
+            }
+        } while (opcao != 11);
+    }
+
+
+
+    public void vender(Jogador jogador) {
         Scanner input = new Scanner(System.in);
         int opcao;
 
@@ -78,21 +189,17 @@ public class Shopping {
             System.out.print("Insira uma opção: ");
             opcao = input.nextInt();
 
-            // Limpa a lista antes de cada nova opção
-            coisasParaComprar.clear();
-
             switch (opcao) {
                 case 1:
-                    adicionarImoveis();
-                    listarItens();
+                    imprimirImoveis();
                     break;
                 case 2:
-                    adicionarVeiculos();
-                    listarItens();
+                    imprimirVeiculo();
+
                     break;
                 case 3:
-                    adicionarAcessoriosModa();
-                    listarItens();
+                    imprimirAcessorio();
+
                     break;
                 case 0:
                     System.out.println("Obrigada pela sua visita, volte sempre!");
@@ -100,46 +207,8 @@ public class Shopping {
                 default:
                     System.out.println("Opção inválida! Por favor, escolha novamente.");
             }
-
         } while (opcao != 0);
     }
-    public void vender(Jogador jogador) {
-        if (coisasParaComprar.isEmpty()) {
-            System.out.println("Não há itens disponíveis para comprar.");
-            return;
-        }
-
-        listarItens();
-
-        Scanner input = new Scanner(System.in);
-        System.out.print("\nInsira o número do item que deseja comprar (0 para cancelar): ");
-        int escolha = input.nextInt();
-
-        if (escolha == 0) {
-            System.out.println("Compra cancelada.");
-            return;
-        }
-
-        // Índice começa em 1 para o utilizador, então subtrai 1
-        int indice = escolha - 1;
-
-        if (indice < 0 || indice >= coisasParaComprar.size()) {
-            System.out.println("Opção inválida.");
-            return;
-        }
-
-        Bens itemEscolhido = coisasParaComprar.get(indice);
-
-        if (jogador.getDinheiro() >= itemEscolhido.getCusto()) {
-            jogador.setDinheiro(jogador.getDinheiro() - itemEscolhido.getCusto());
-            jogador.adicionarBem(itemEscolhido);
-            System.out.println("Compra realizada com sucesso!");
-        } else {
-            System.out.println("Saldo insuficiente.");
-        }
-
-    }
-
 }
 
 

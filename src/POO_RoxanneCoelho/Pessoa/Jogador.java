@@ -1,10 +1,12 @@
 package POO_RoxanneCoelho.Pessoa;
 
 import POO_RoxanneCoelho.Bens.Bens;
+import POO_RoxanneCoelho.Bens.AcessorioModa;
 import POO_RoxanneCoelho.Enums.ObjetivoVida;
 import POO_RoxanneCoelho.Profissao.Profissao;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Representa o jogador (uma subclasse de Pessoa), com atributos como objetivo de Vida, profissão, necessidades (Sono, Social, Refeicao), estatuto, escolaridade, lista de bens materiais e família do jogador.
@@ -220,28 +222,90 @@ public class Jogador extends Pessoa {
      * as necessidades, o nível de estatuto, de escolaridade,
      * a lista de bens materiais e da família
      */
-
-    public void mostrarDetalhes() {
-        System.out.println("Nome: " + this.nome);
-        System.out.println("Dinheiro: " + this.dinheiro);
-        System.out.println("Objetivo de Vida: " + this.objetivoVida);
-        System.out.println("Profissão: " + this.profissao);
-        System.out.println("Necessidade de Sono: " + this.necessidadeSono);
-        System.out.println("Necessidade Social: " + this.necessidadeSocial);
-        System.out.println("Necessidade de Refeição: " + this.necessidadeRefeicao);
-        System.out.println("Estatuto: " + this.estatuto);
-        System.out.println("Escolaridade: " + this.escolaridade);
-
-        int contadorBens = 1;
-
-        for (Bens bens : this.bensMateriais) {
-            System.out.println("Bem número " + contadorBens++ + ": ");
-            bens.mostrarDetalhesBens();
-
+    public void mostrarBensMateriais() {
+        System.out.println("Bens materiais:");
+        int contador = 1;
+        for (Bens bem : this.bensMateriais) {
+            System.out.println("Bem número " + contador++ + ": ");
+            bem.mostrarDetalhesBens();
         }
-        System.out.println("Familia de " + this.nome + ": ");
+    }
+
+    public void mostrarFamilia() {
+        System.out.println("Família de " + this.nome + ": ");
         for (NPC npc : this.familiaJogador) {
             npc.mostrarNPC();
         }
     }
+
+    public void mostrarDetalhes() {
+            System.out.println("Nome: " + this.nome);
+            System.out.println("Dinheiro: " + this.dinheiro);
+            System.out.println("Objetivo de Vida: " + this.objetivoVida);
+            System.out.println("Profissão: " + this.profissao);
+            System.out.println("Necessidade de Sono: " + this.necessidadeSono);
+            System.out.println("Necessidade Social: " + this.necessidadeSocial);
+            System.out.println("Necessidade de Refeição: " + this.necessidadeRefeicao);
+            System.out.println("Estatuto: " + this.estatuto);
+            System.out.println("Escolaridade: " + this.escolaridade);
+
+            mostrarBensMateriais();
+            mostrarFamilia();
+        }
+
+    public void procurarNovaProfissao() {
+        Scanner input = new Scanner(System.in);
+        ArrayList<Profissao> lista = Profissao.getListaProfissoes();
+
+        System.out.println("Profissões disponíveis:");
+        for (int i = 0; i < lista.size(); i++) {
+            Profissao p = lista.get(i);
+            System.out.println(i + " - " + p.getNome() + " | Salário: " + p.getSalarioDia()
+                    + " | Formal: " + p.getFormal()
+                    + " | Estatuto mínimo: " + p.getEstatuto()
+                    + " | Escolaridade mínima: " + p.getNivelMinimoEscolaridade());
+        }
+
+        System.out.print("Escolha o número da profissão que deseja tentar: ");
+        int escolha = input.nextInt();
+        Profissao nova = lista.get(escolha);
+
+        boolean temAcessorioFormal = false;
+
+        for (Bens bem : this.bensMateriais) {
+            // Verifica se o bem é um AcessorioModa
+            if (bem instanceof AcessorioModa) {
+                // Faz o cast (conversão) de Bens para AcessorioModa
+                AcessorioModa acessorio = (AcessorioModa) bem;
+
+                // Agora sim, podes usar getFormal() porque sabes que é um acessório
+                if (acessorio.getFormal()) {
+                    temAcessorioFormal = true;
+                    break; // Já encontraste um, podes parar o ciclo
+                }
+            }
+        }
+
+        if (temAcessorioFormal == false) {
+            System.out.println("Rejeitado: precisa de pelo menos um acessório de moda formal para essa profissão.");
+            return;
+        }
+
+        if (this.estatuto < nova.getEstatuto()) {
+            System.out.println("Rejeitado: o seu estatuto não é suficiente.");
+            return;
+        }
+
+        if (this.escolaridade < nova.getNivelMinimoEscolaridade()) {
+            System.out.println("Rejeitado: o seu nível de escolaridade não é suficiente.");
+            return;
+        }
+
+        // Se passou todos os critérios:
+        this.profissao = nova;
+        System.out.println("Parabéns! Conseguiste o emprego como " + nova.getNome() + ".");
+    }
+
+
+
 }

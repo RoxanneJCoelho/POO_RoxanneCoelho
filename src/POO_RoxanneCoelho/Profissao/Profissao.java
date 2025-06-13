@@ -1,5 +1,7 @@
 package POO_RoxanneCoelho.Profissao;
 
+import java.util.ArrayList;
+
 /**
  * Representa uma profissão que o jogador pode ter no jogo,
  * com atributos como nome, salário por dia, se é formal ou não, estatuto e um nível mínimo de escolaridade necessário.
@@ -11,6 +13,9 @@ public class Profissao {
     private boolean formal;
     private int estatuto;
     private int nivelMinimoEscolaridade;
+
+    // Lista estática de profissões disponíveis
+    private static ArrayList<Profissao> listaProfissoes = new ArrayList<>();
 
     /**
      * Construtor da classe Profissao.
@@ -28,6 +33,17 @@ public class Profissao {
         this.formal = formal;
         this.estatuto = estatuto;
         this.nivelMinimoEscolaridade = nivelMinimoEscolaridade;
+    }
+    // Método estático para inicializar a lista com algumas profissões padrão
+    public static void inicializarProfissoes() {
+        listaProfissoes.add(new Profissao("Professor Universitário", 150, true, 10, 5));
+        listaProfissoes.add(new Profissao("Celebridade", 300, false, 15, 0));
+        listaProfissoes.add(new Profissao("Empresário", 200, true, 12, 3));
+    }
+
+    // Método estático para obter a lista
+    public static ArrayList<Profissao> getListaProfissoes() {
+        return listaProfissoes;
     }
 
     // Getters
@@ -78,7 +94,11 @@ public class Profissao {
      * @return o nível mínimo de escolaridade necessário
      */
 
-    public int nivelMinimoEscolaridade() {
+    public int getNivelMinimoEscolaridade() {
         return nivelMinimoEscolaridade;
     }
+
+
+
+
 }
