@@ -13,6 +13,7 @@ import POO_RoxanneCoelho.Sims.Sims;
 public class Main {
     public static void main(String[] args) {
 
+
         CatalogoProfissao catalogoProfissao = new CatalogoProfissao();
 
         Profissao prof1 = new Profissao(1, "Caixa de Supermercado", 40, false, 0, 0);
@@ -41,7 +42,7 @@ public class Main {
         catalogoNPC.adicionarNPC(npc4);
         catalogoNPC.adicionarNPC(npc5);
 
-        Shopping shopping = new Shopping(null);
+        Shopping shopping = new Shopping();
         Imovel imovel1 = new Imovel(1, "Apartamento T1", 150000, 70, 3);
         Imovel imovel2 = new Imovel(2, "Apartamento T2", 300000, 150, 4);
         Imovel imovel3 = new Imovel(3, "Mansão de Luxo", 1500000, 800, 14);
@@ -109,8 +110,10 @@ public class Main {
         shopping.adicionarItem(acessorioModa9);
         shopping.adicionarItem(acessorioModa10);
 
-        Sims jogo = new Sims(null);
+
+        Sims jogo = new Sims(shopping, catalogoProfissao, catalogoNPC);
         jogo.criarPessoa();
         jogo.jogo();
+
     }
 }

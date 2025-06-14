@@ -9,9 +9,11 @@ public class Shopping {
     private Jogador jogador;
     private ArrayList<Bens> coisasParaComprar;
 
-    public Shopping(Jogador jogador) {
-        this.jogador = jogador;
+    public Shopping() {
         this.coisasParaComprar = new ArrayList<Bens>();
+    }
+    public void setJogador(Jogador jogador) {
+        this.jogador = jogador;
     }
 
     public void adicionarItem(Bens bens) {
@@ -19,7 +21,6 @@ public class Shopping {
     }
 
     public void mostrarImoveis() {
-        Scanner input = new Scanner(System.in);
 
         for (Bens bens : coisasParaComprar) {
             if (bens instanceof Imovel) {
@@ -31,7 +32,7 @@ public class Shopping {
 
     public void mostrarVeiculo() {
 
-        Scanner input = new Scanner(System.in);
+
 
         for (Bens bens : coisasParaComprar) {
             if (bens instanceof Veiculo) {
@@ -42,10 +43,10 @@ public class Shopping {
     }
 
     public void mostrarAcessorio() {
-        Scanner input = new Scanner(System.in);
+
 
         for (Bens bens : coisasParaComprar) {
-            if (bens instanceof Veiculo) {
+            if (bens instanceof AcessorioModa) {
                 bens.mostrarDetalhesBens();
                 System.out.println();
             }

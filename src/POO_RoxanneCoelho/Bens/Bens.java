@@ -73,7 +73,7 @@ public class Bens {
      */
 
     public void mostrarDetalhesBens() {
-        System.out.println("ID nº " + this.id + "Nome: " + this.nome + " | Custo:  " + this.custo + " | Estatuto: " + this.estatuto);
+        System.out.println("ID nº " + this.id + " | Nome: " + this.nome + " | Custo:  " + this.custo + " | Estatuto: " + this.estatuto);
     }
 
 }

@@ -25,9 +25,7 @@ public class CatalogoProfissao {
         Scanner input = new Scanner(System.in);
 
         System.out.println("\nProfissões disponíveis:");
-        for (Profissao profissao : this.profissoesDisponiveis) {
-            profissao.profissoesDetalhes();
-        }
+        imprimirProfissoes();
 
         System.out.print("\nEscolhe o ID da nova profissão: ");
         int idEscolhido = input.nextInt();

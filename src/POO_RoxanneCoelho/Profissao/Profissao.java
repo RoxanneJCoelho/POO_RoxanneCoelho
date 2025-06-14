@@ -97,6 +97,6 @@ public class Profissao {
     }
 
     public void profissoesDetalhes() {
-        System.out.println("Profissao nº: " + this.id + "Nome: " + this.nome + " | Salário por dia: " + this.salarioDia + " euros | Formal: " + this.formal + " | Estatuto: " + this.estatuto + " | Nível Mínimo de Escolaridade: " + this.nivelMinimoEscolaridade);
+        System.out.println("Profissao nº: " + this.id + " | Nome: " + this.nome + " | Salário por dia: " + this.salarioDia + " euros | Formal: " + this.formal + " | Estatuto: " + this.estatuto + " | Nível Mínimo de Escolaridade: " + this.nivelMinimoEscolaridade);
     }
 }

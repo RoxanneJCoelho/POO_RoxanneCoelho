@@ -239,7 +239,11 @@ public class Jogador extends Pessoa {
         System.out.println("Nome: " + this.nome);
         System.out.println("Dinheiro: " + this.dinheiro);
         System.out.println("Objetivo de Vida: " + this.objetivoVida);
-        System.out.println("Profissão: " + this.profissao);
+        if (this.profissao != null) {
+            System.out.println("Profissão: " + this.profissao.getNome());
+        } else {
+            System.out.println("Profissão: Não tem");
+        }
         System.out.println("Necessidade de Sono: " + this.necessidadeSono);
         System.out.println("Necessidade Social: " + this.necessidadeSocial);
         System.out.println("Necessidade de Refeição: " + this.necessidadeRefeicao);
@@ -249,7 +253,6 @@ public class Jogador extends Pessoa {
         mostrarBensMateriais();
         mostrarFamilia();
     }
-
 }
 
 

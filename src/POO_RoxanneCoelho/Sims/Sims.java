@@ -2,6 +2,7 @@ package POO_RoxanneCoelho.Sims;
 
 import POO_RoxanneCoelho.Bens.Imovel;
 import POO_RoxanneCoelho.Bens.Shopping;
+import POO_RoxanneCoelho.Pessoa.CatalogoNPC;
 import POO_RoxanneCoelho.Pessoa.Jogador;
 import POO_RoxanneCoelho.Enums.ObjetivoVida;
 import POO_RoxanneCoelho.Profissao.CatalogoProfissao;
@@ -11,9 +12,14 @@ import java.util.Scanner;
 
 public class Sims {
     private Jogador jogador;
+    private Shopping shopping;
+    private CatalogoProfissao catalogoProfissao;
+    private CatalogoNPC catalogoNPC;
 
-    public Sims(Jogador jogador) {
-        this.jogador = jogador;
+    public Sims(Shopping shopping, CatalogoProfissao catalogoProfissao, CatalogoNPC catalogoNPC) {
+        this.shopping = shopping;
+        this.catalogoProfissao = catalogoProfissao;
+        this.catalogoNPC = catalogoNPC;
     }
 
     public void criarPessoa() {
@@ -57,6 +63,7 @@ public class Sims {
 
         this.jogador = new Jogador (nome, 0, objetivo, null, 100, 100, 100, 0, 0);
         System.out.println("Personagem criada! Bem vind@, " + nome);
+        this.shopping.setJogador(this.jogador);
     }
 
 
@@ -78,7 +85,8 @@ public class Sims {
                 System.out.println("4 - Falar com alguém / Jogar Computador / Praticar Hobby");
                 System.out.println("5 - Ir ao Shopping");
                 System.out.println("6 - Ter formação");
-                System.out.println("7 - Procurar outra profissao");
+                System.out.println("7 - Mostrar propriedades");
+                System.out.println("8 - Procurar outra profissao");
                 System.out.println("0 - Sair do jogo");
                 System.out.println("Insira uma opção: ");
 
@@ -90,18 +98,17 @@ public class Sims {
                         System.out.println("Ganhou " + jogador.getProfissao().getSalarioDia() + " euros.");
                         break;
                     case 2:
-                        jogador.setNecessidadeSono(100);
+                        jogador.setNecessidadeSono(125);
                         break;
                     case 3:
-                        jogador.setNecessidadeRefeicao(100);
+                        jogador.setNecessidadeRefeicao(120);
                         jogador.setDinheiro(jogador.getDinheiro() - 5);
                         break;
                     case 4:
-                        jogador.setNecessidadeSocial(100);
+                        jogador.setNecessidadeSocial(115);
                         break;
                     case 5:
-                        Shopping meuShopping = new Shopping(jogador);
-                        meuShopping.vender();
+                        shopping.vender();
                         break;
                     case 6:
                         jogador.setEscolaridade(jogador.getEscolaridade() + 2);
@@ -111,7 +118,6 @@ public class Sims {
                         jogador.mostrarDetalhes();
                         break;
                     case 8:
-                        CatalogoProfissao catalogoProfissao = new CatalogoProfissao();
                         catalogoProfissao.trocarProfissao(this.jogador);
                         break;
                     case 0:
