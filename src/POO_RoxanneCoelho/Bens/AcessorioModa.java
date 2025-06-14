@@ -11,6 +11,7 @@ public class AcessorioModa extends Bens {
     /**
      * Construtor da classe AcessorioModa.
      *
+     * @param id       o id do acessório
      * @param nome     o nome do acessório
      * @param custo    o custo do acessório
      * @param estatuto o nível de estatuto do acessório
@@ -18,8 +19,8 @@ public class AcessorioModa extends Bens {
      * @param formal   true se for um acessório formal; false se for informal
      */
 
-    public AcessorioModa(String nome, double custo, int estatuto, String marca, boolean formal) {
-        super(nome, custo, estatuto);
+    public AcessorioModa(int id, String nome, double custo, int estatuto, String marca, boolean formal) {
+        super(id, nome, custo, estatuto);
         this.marca = marca;
         this.formal = formal;
     }

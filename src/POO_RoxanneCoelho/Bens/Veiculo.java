@@ -11,6 +11,7 @@ public class Veiculo extends Bens {
     /**
      * Construtor da classe Veiculo.
      *
+     * @param id       o id do veículo
      * @param nome     o nome do veículo
      * @param custo    o custo do veículo
      * @param estatuto o nível de estatuto do veículo
@@ -18,8 +19,8 @@ public class Veiculo extends Bens {
      * @param modelo   o modelo do veículo
      */
 
-    public Veiculo(String nome, double custo, int estatuto, String marca, String modelo) {
-        super(nome, custo, estatuto);
+    public Veiculo(int id, String nome, double custo, int estatuto, String marca, String modelo) {
+        super(id, nome, custo, estatuto);
         this.marca = marca;
         this.modelo = modelo;
     }

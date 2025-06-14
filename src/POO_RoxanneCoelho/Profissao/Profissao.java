@@ -1,25 +1,22 @@
 package POO_RoxanneCoelho.Profissao;
 
-import java.util.ArrayList;
-
 /**
  * Representa uma profissão que o jogador pode ter no jogo,
  * com atributos como nome, salário por dia, se é formal ou não, estatuto e um nível mínimo de escolaridade necessário.
  */
 
 public class Profissao {
+    private int id;
     private String nome;
     private double salarioDia;
     private boolean formal;
     private int estatuto;
     private int nivelMinimoEscolaridade;
 
-    // Lista estática de profissões disponíveis
-    private static ArrayList<Profissao> listaProfissoes = new ArrayList<>();
-
     /**
      * Construtor da classe Profissao.
      *
+     * @param id                      o id da profissao
      * @param nome                    o nome da profissão
      * @param salarioDia              o valor do salário por dia da profissão
      * @param formal                  true se for uma profissão formal; false se for informal
@@ -27,26 +24,27 @@ public class Profissao {
      * @param nivelMinimoEscolaridade o nível mínimo de escolaridade necessário
      */
 
-    public Profissao(String nome, double salarioDia, boolean formal, int estatuto, int nivelMinimoEscolaridade) {
+    public Profissao(int id, String nome, double salarioDia, boolean formal, int estatuto, int nivelMinimoEscolaridade) {
+        this.id = id;
         this.nome = nome;
         this.salarioDia = salarioDia;
         this.formal = formal;
         this.estatuto = estatuto;
         this.nivelMinimoEscolaridade = nivelMinimoEscolaridade;
     }
-    // Método estático para inicializar a lista com algumas profissões padrão
-    public static void inicializarProfissoes() {
-        listaProfissoes.add(new Profissao("Professor Universitário", 150, true, 10, 5));
-        listaProfissoes.add(new Profissao("Celebridade", 300, false, 15, 0));
-        listaProfissoes.add(new Profissao("Empresário", 200, true, 12, 3));
-    }
 
-    // Método estático para obter a lista
-    public static ArrayList<Profissao> getListaProfissoes() {
-        return listaProfissoes;
-    }
 
     // Getters
+
+    /**
+     * Obter o id da profissão.
+     *
+     * @return o id da profissão
+     */
+
+    public int getId() {
+        return id;
+    }
 
     /**
      * Obter o nome da profissão.
@@ -98,7 +96,7 @@ public class Profissao {
         return nivelMinimoEscolaridade;
     }
 
-
-
-
+    public void profissoesDetalhes() {
+        System.out.println("Profissao nº: " + this.id + "Nome: " + this.nome + " | Salário por dia: " + this.salarioDia + " euros | Formal: " + this.formal + " | Estatuto: " + this.estatuto + " | Nível Mínimo de Escolaridade: " + this.nivelMinimoEscolaridade);
+    }
 }

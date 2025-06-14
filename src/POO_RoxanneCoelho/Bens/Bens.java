@@ -5,6 +5,7 @@ package POO_RoxanneCoelho.Bens;
  */
 
 public class Bens {
+    protected int id;
     protected String nome;
     protected double custo;
     protected int estatuto;
@@ -12,18 +13,30 @@ public class Bens {
     /**
      * Construtor da classe Bens.
      *
+     * @param id       o id do bem
      * @param nome     o nome do bem
      * @param custo    o custo do bem
      * @param estatuto o nível de estatuto do bem
      */
 
-    public Bens(String nome, double custo, int estatuto) {
+    public Bens(int id, String nome, double custo, int estatuto) {
+        this.id = id;
         this.nome = nome;
         this.custo = custo;
         this.estatuto = estatuto;
     }
 
     // Getters
+
+    /**
+     * Obter o id do bem.
+     *
+     * @return o id do bem
+     */
+
+    public int getId() {
+        return id;
+    }
 
     /**
      * Obter o nome do bem.
@@ -60,7 +73,7 @@ public class Bens {
      */
 
     public void mostrarDetalhesBens() {
-        System.out.println(this.nome + " | Custo:  " + this.custo + " | Estatuto: " + this.estatuto);
+        System.out.println("ID nº " + this.id + "Nome: " + this.nome + " | Custo:  " + this.custo + " | Estatuto: " + this.estatuto);
     }
 
 }

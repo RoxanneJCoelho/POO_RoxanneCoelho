@@ -1,17 +1,13 @@
 package POO_RoxanneCoelho.Sims;
 
-import POO_RoxanneCoelho.Bens.Bens;
 import POO_RoxanneCoelho.Bens.Imovel;
 import POO_RoxanneCoelho.Bens.Shopping;
 import POO_RoxanneCoelho.Pessoa.Jogador;
-import POO_RoxanneCoelho.Pessoa.NPC;
-import POO_RoxanneCoelho.Profissao.Profissao;
 import POO_RoxanneCoelho.Enums.ObjetivoVida;
+import POO_RoxanneCoelho.Profissao.CatalogoProfissao;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
-import static POO_RoxanneCoelho.Profissao.Profissao.inicializarProfissoes;
 
 public class Sims {
     private Jogador jogador;
@@ -22,22 +18,50 @@ public class Sims {
 
     public void criarPessoa() {
         Scanner input = new Scanner(System.in);
+        System.out.println("******** Bem vind@ ao Jogo de Sims da Roxie! ********");
+        System.out.println("Crie a sua personagem!");
 
-        System.out.print("Insira o nome da pessoa: ");
+        System.out.print("Nome: ");
         String nome = input.nextLine();
 
-        System.out.print("Escolha o objetivo de vida (PROFESSOR_UNIVERSITARIO, CELEBRIDADE, FAMILIA_COMPLETA, SER_RICO): ");
-        ObjetivoVida objetivo = ObjetivoVida.valueOf(input.nextLine().toUpperCase()); // cuidado aqui, tens que alterar isto!
+        ObjetivoVida objetivo;
+        int opcao;
 
-        System.out.print("Escolha a profissão (nome apenas, salário será definido automaticamente): ");
-        String nomeProfissao = input.nextLine();
-        Profissao profissao = new Profissao(nomeProfissao, 100, false, 0, 0); // exemplo
+        do {
+            System.out.println("Escolhe o teu objetivo de vida:");
+            System.out.println("1 - PROFESSOR UNIVERSITÁRIO");
+            System.out.println("2 - CELEBRIDADE");
+            System.out.println("3 - FAMÍLIA COMPLETA");
+            System.out.println("4 - SER RICO");
+            System.out.print("Insere o número correspondente: ");
+            opcao = input.nextInt();
 
-        this.jogador = new Jogador(nome, 0, objetivo, profissao, 100, 100, 100, 0, 0); // usa o atributo
-        System.out.println("Jogador criado com sucesso!\n Bem vind@" + jogador.getNome());
+            switch (opcao) {
+                case 1:
+                    objetivo = ObjetivoVida.PROFESSOR_UNIVERSITARIO;
+                    break;
+                case 2:
+                    objetivo = ObjetivoVida.CELEBRIDADE;
+                    break;
+                case 3:
+                    objetivo = ObjetivoVida.FAMILIA_COMPLETA;
+                    break;
+                case 4:
+                    objetivo = ObjetivoVida.SER_RICO;
+                    break;
+                default:
+                    System.out.println("Opção inválida, tenta novamente.\n");
+                    objetivo = null;
+            }
+        } while (objetivo == null);
+
+        this.jogador = new Jogador (nome, 0, objetivo, null, 100, 100, 100, 0, 0);
+        System.out.println("Personagem criada! Bem vind@, " + nome);
     }
 
+
     public void jogo() {
+        Jogador jogador = this.jogador;
         Scanner input = new Scanner(System.in);
         int dia = 1;
 
@@ -77,7 +101,7 @@ public class Sims {
                         break;
                     case 5:
                         Shopping meuShopping = new Shopping(jogador);
-                        meuShopping.vender(jogador);
+                        meuShopping.vender();
                         break;
                     case 6:
                         jogador.setEscolaridade(jogador.getEscolaridade() + 2);
@@ -87,7 +111,8 @@ public class Sims {
                         jogador.mostrarDetalhes();
                         break;
                     case 8:
-                        inicializarProfissoes();
+                        CatalogoProfissao catalogoProfissao = new CatalogoProfissao();
+                        catalogoProfissao.trocarProfissao(this.jogador);
                         break;
                     case 0:
                         System.out.println("A sair do jogo...");
@@ -95,13 +120,11 @@ public class Sims {
                     default:
                         System.out.println("Opção inválida.");
                 }
+                // Diminuir necessidades
+                jogador.setNecessidadeSono(jogador.getNecessidadeSono() - 25);
+                jogador.setNecessidadeRefeicao(jogador.getNecessidadeRefeicao() - 20);
+                jogador.setNecessidadeSocial(jogador.getNecessidadeSocial() - 15);
             }
-
-            // Diminuir necessidades
-            jogador.setNecessidadeSono(jogador.getNecessidadeSono() - 25);
-            jogador.setNecessidadeRefeicao(jogador.getNecessidadeRefeicao() - 20);
-            jogador.setNecessidadeSocial(jogador.getNecessidadeSocial() - 15);
-
 
             dia++;
 
@@ -135,7 +158,7 @@ public class Sims {
                 System.out.println("Ganhaste de herança um apartamento!");
 
                 // Criar o apartamento herdado
-                Imovel apartamento = new Imovel("Apartamento de herança", 0, 20, 3); // nome, custo, estatuto
+                Imovel apartamento = new Imovel(90, "Apartamento de herança", 0, 20, 3); // nome, custo, estatuto
 
                 // Adicionar à lista de bens do jogador
                 jogador.adicionarBem(apartamento);

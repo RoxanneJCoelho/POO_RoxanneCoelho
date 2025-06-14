@@ -10,14 +10,15 @@ public class Imovel extends Bens {
     /**
      * Construtor da classe Imovel.
      *
+     * @param id                o id do imóvel
      * @param nome              o nome do imóvel
      * @param custo             o custo do imóvel
      * @param estatuto          o nível de estatuto do imóvel
      * @param capacidadePessoas a capacidade máxima de pessoas do imóvel
      */
 
-    public Imovel(String nome, double custo, int estatuto, int capacidadePessoas) {
-        super(nome, custo, estatuto);
+    public Imovel(int id, String nome, double custo, int estatuto, int capacidadePessoas) {
+        super(id, nome, custo, estatuto);
         this.capacidadePessoas = capacidadePessoas;
     }
 
