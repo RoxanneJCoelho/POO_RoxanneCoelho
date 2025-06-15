@@ -1,10 +1,12 @@
 package POO_RoxanneCoelho.Sims;
 
+import POO_RoxanneCoelho.Bens.Bens;
 import POO_RoxanneCoelho.Bens.Imovel;
 import POO_RoxanneCoelho.Bens.Shopping;
 import POO_RoxanneCoelho.Pessoa.CatalogoNPC;
 import POO_RoxanneCoelho.Pessoa.Jogador;
 import POO_RoxanneCoelho.Enums.ObjetivoVida;
+import POO_RoxanneCoelho.Pessoa.NPC;
 import POO_RoxanneCoelho.Profissao.CatalogoProfissao;
 
 import java.util.Scanner;
@@ -61,7 +63,7 @@ public class Sims {
             }
         } while (objetivo == null);
 
-        this.jogador = new Jogador (nome, 0, objetivo, null, 100, 100, 100, 0, 0);
+        this.jogador = new Jogador(nome, 0, objetivo, null, 100, 100, 100, 0, 0, false);
         System.out.println("Personagem criada! Bem vind@, " + nome);
         this.shopping.setJogador(this.jogador);
     }
@@ -69,15 +71,22 @@ public class Sims {
 
     public void jogo() {
         Jogador jogador = this.jogador;
+
         Scanner input = new Scanner(System.in);
         int dia = 1;
 
         while (dia < 100) {
             System.out.println("Dia nº " + dia);
             String[] momentoDia = {"Manhã", "Meio-dia", "Tarde", "Noite"};
+
+            if (jogador.isCasado()) {
+                jogador.setDinheiro(jogador.getDinheiro() + 30);
+            }
             for (String momento : momentoDia) {
                 System.out.println("Momento do dia: " + momento);
+
                 jogador.mostrarDetalhes();
+
                 System.out.println("O que queres fazer?");
                 System.out.println("1 - Ir trabalhar");
                 System.out.println("2 - Dormir");
@@ -91,6 +100,29 @@ public class Sims {
                 System.out.println("Insira uma opção: ");
 
                 int opcao = input.nextInt();
+
+                if (jogador.getNecessidadeRefeicao() < 25) {
+                    do {
+                        System.out.println("Estas com fome, vai comer! Escolhe a opção 3: ");
+                        opcao = input.nextInt();
+                    } while (opcao != 3);
+                    jogador.setNecessidadeRefeicao(120);
+                    jogador.setDinheiro(jogador.getDinheiro() - 5);
+                } else if (jogador.getNecessidadeSono() < 25) {
+                    do {
+                        System.out.println("Estas com sono, vai dormir! Escolhe a opção 2: ");
+                        opcao = input.nextInt();
+                    } while (opcao != 2);
+                    jogador.setNecessidadeSono(125);
+                } else if (jogador.getNecessidadeSocial() < 25) {
+                    do {
+                        System.out.println("Sai do buraco e vai socializar! Escolhe a opção 4: ");
+                        opcao = input.nextInt();
+                    } while (opcao != 4);
+                    jogador.setNecessidadeSocial(115);
+                } else if (jogador.isCasado() && dia <= 60) {
+                    System.out.println("9 - Ter ou Adotar Filho");
+                }
 
                 switch (opcao) {
                     case 1:
@@ -120,6 +152,23 @@ public class Sims {
                     case 8:
                         catalogoProfissao.trocarProfissao(this.jogador);
                         break;
+                    case 9:
+                        if (jogador.isCasado() && dia <= 60) {
+                            int capacidadeAtual = jogador.getCapacidadeTotalPropriedades();
+                            int membrosFamilia = jogador.getFamiliaSize();
+
+                            if (membrosFamilia + 1 <= capacidadeAtual) {
+                                NPC filho = new NPC("Filho(a)", 0, 100, 0); // Nome genérico; podes personalizar
+                                jogador.adicionarFamilia(filho);
+                                System.out.println("Parabéns! Adicionaste um novo filho à tua família.");
+                            } else {
+                                System.out.println("Não tens espaço suficiente nas propriedades para acolher um filho.");
+                            }
+                        } else {
+                            System.out.println("Esta opção não está disponível.");
+                        }
+                        break;
+
                     case 0:
                         System.out.println("A sair do jogo...");
                         return;
@@ -136,19 +185,39 @@ public class Sims {
 
             // Evento obrigatório no dia 5: universidade
             if (dia == 5) {
-                System.out.println("Deseja ir para a universidade? (s/n)");
-                String escolhaUni = input.next().toLowerCase();
+                System.out.println("Deseja ir para a universidade?");
+                System.out.println(" 1 - Sim");
+                System.out.println(" 2 - Não");
+                int opcao = input.nextInt();
 
-                if (escolhaUni.equals("s")) {
+                if (opcao == 1) {
                     jogador.setEscolaridade(jogador.getEscolaridade() + 50);
                     jogador.setDinheiro(jogador.getDinheiro() - 3000);
-                    System.out.println("Inscreveu-se na universidade. Educação aumentou, mas contraiu uma dívida de 3000.");
+                    System.out.println("Inscreveu-se na universidade. Educação aumentou 50 pontos, mas contraiu uma dívida de 3000 euros.");
                 } else {
                     System.out.println("Decidiu não ir para a universidade.");
                 }
             }
 
-            // Evento do dia 22: casamento
+            // Evento obrigatório no dia 22: casamento
+            if (dia == 22) {
+                System.out.println("Deseja casar?");
+                System.out.println(" 1 - Sim");
+                System.out.println(" 2 - Não");
+                int opcao = input.nextInt();
+
+                this.jogador.ImovelValido();
+
+                if (opcao == 1) {
+                    System.out.println("Eis os seus pretendentes: ");
+                    catalogoNPC.imprimirNPC();
+                    System.out.println("Com quem deseja casar? Insira o ID da pessoa: ");
+                    int idNPC = input.nextInt();
+                    catalogoNPC.casar(idNPC, this.jogador);
+                } else {
+                    System.out.println("Decidiu não se casar.");
+                }
+            }
 
 
             // Evento que vai do dia 22 ao 60: filhos

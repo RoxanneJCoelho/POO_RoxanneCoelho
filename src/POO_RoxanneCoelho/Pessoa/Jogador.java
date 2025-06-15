@@ -1,6 +1,7 @@
 package POO_RoxanneCoelho.Pessoa;
 
 import POO_RoxanneCoelho.Bens.Bens;
+import POO_RoxanneCoelho.Bens.Imovel;
 import POO_RoxanneCoelho.Enums.ObjetivoVida;
 import POO_RoxanneCoelho.Profissao.Profissao;
 
@@ -20,6 +21,8 @@ public class Jogador extends Pessoa {
     private int escolaridade;
     private ArrayList<Bens> bensMateriais;
     private ArrayList<NPC> familiaJogador;
+    private boolean casado = false;
+
 
     /**
      * Construtor da classe Jogador.
@@ -35,7 +38,7 @@ public class Jogador extends Pessoa {
      * @param escolaridade        o nível de escolaridade do jogador
      */
 
-    public Jogador(String nome, double dinheiro, ObjetivoVida objetivoVida, Profissao profissao, int necessidadeSono, int necessidadeRefeicao, int necessidadeSocial, int estatuto, int escolaridade) {
+    public Jogador(String nome, double dinheiro, ObjetivoVida objetivoVida, Profissao profissao, int necessidadeSono, int necessidadeRefeicao, int necessidadeSocial, int estatuto, int escolaridade, boolean casado) {
         super(nome, dinheiro);
         this.objetivoVida = objetivoVida;
         this.profissao = profissao;
@@ -46,9 +49,17 @@ public class Jogador extends Pessoa {
         this.escolaridade = escolaridade;
         this.bensMateriais = new ArrayList<Bens>();
         this.familiaJogador = new ArrayList<NPC>();
+        this.casado = casado;
     }
 
     // Getters
+    public boolean isCasado() {
+        return casado;
+    }
+
+    public void setCasado(boolean casado) {
+        this.casado = casado;
+    }
 
     /**
      * Obter o objetivo de Vida do jogador.
@@ -193,9 +204,26 @@ public class Jogador extends Pessoa {
      *
      * @param npc o novo membro da família
      */
-    public void adicionarfamilia(NPC npc) {
+    public void adicionarFamilia(NPC npc) {
         this.familiaJogador.add(npc);
     }
+
+    public int getFamiliaSize() {
+        return this.familiaJogador.size();
+    }
+
+    public void getCapacidadeTotalPropriedades() {
+        for (Bens bens : this.bensMateriais){
+            if (bens instanceof Imovel && ((Imovel) bens).getCapacidadePessoas()>=getFamiliaSize()){
+                System.out.println("Tem Propriedade para Casar!");
+                int total;
+            }
+            else {
+                System.out.println("Não pode casar!");
+            }
+        }
+
+    } return total;
 
     /**
      * Remover um bem material da lista de bens materiais do jogador.
@@ -227,6 +255,18 @@ public class Jogador extends Pessoa {
             bem.mostrarDetalhesBens();
         }
     }
+
+    public void ImovelValido(){
+        for (Bens bens : this.bensMateriais){
+            if (bens instanceof Imovel && ((Imovel) bens).getCapacidadePessoas()>=2){
+                System.out.println("Tem Propriedade para Casar!");
+            }
+            else {
+                System.out.println("Não pode casar!");
+            }
+        }
+    }
+
 
     public void mostrarFamilia() {
         System.out.println("Família de " + this.nome + ": ");
