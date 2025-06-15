@@ -114,6 +114,7 @@ public class Main {
         Sims jogo = new Sims(shopping, catalogoProfissao, catalogoNPC);
         jogo.criarPessoa();
         jogo.jogo();
+        jogo.cumprirObjetivoVida();
 
     }
 }

@@ -36,4 +36,6 @@ public class CatalogoNPC {
         System.out.println("NPC com ID " + idNPC + " não encontrado.");
     }
 
+
+
 }

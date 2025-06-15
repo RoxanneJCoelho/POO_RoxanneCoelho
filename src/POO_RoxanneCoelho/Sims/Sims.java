@@ -1,6 +1,5 @@
 package POO_RoxanneCoelho.Sims;
 
-import POO_RoxanneCoelho.Bens.Bens;
 import POO_RoxanneCoelho.Bens.Imovel;
 import POO_RoxanneCoelho.Bens.Shopping;
 import POO_RoxanneCoelho.Pessoa.CatalogoNPC;
@@ -8,6 +7,7 @@ import POO_RoxanneCoelho.Pessoa.Jogador;
 import POO_RoxanneCoelho.Enums.ObjetivoVida;
 import POO_RoxanneCoelho.Pessoa.NPC;
 import POO_RoxanneCoelho.Profissao.CatalogoProfissao;
+
 
 import java.util.Scanner;
 
@@ -24,6 +24,8 @@ public class Sims {
         this.catalogoNPC = catalogoNPC;
     }
 
+    ObjetivoVida objetivo;
+
     public void criarPessoa() {
         Scanner input = new Scanner(System.in);
         System.out.println("******** Bem vind@ ao Jogo de Sims da Roxie! ********");
@@ -32,7 +34,7 @@ public class Sims {
         System.out.print("Nome: ");
         String nome = input.nextLine();
 
-        ObjetivoVida objetivo;
+
         int opcao;
 
         do {
@@ -82,6 +84,14 @@ public class Sims {
             if (jogador.isCasado()) {
                 jogador.setDinheiro(jogador.getDinheiro() + 30);
             }
+
+            // Custo diário por membro da família (reveeeer istoooooo)
+            int custoFamilia = jogador.getFamiliaSize() * 10;
+            jogador.setDinheiro(jogador.getDinheiro() - custoFamilia);
+            System.out.println("Pagaste " + custoFamilia + " euros para sustentar a tua família.");
+            jogador.retirarFilhos();
+
+
             for (String momento : momentoDia) {
                 System.out.println("Momento do dia: " + momento);
 
@@ -154,7 +164,7 @@ public class Sims {
                         break;
                     case 9:
                         if (jogador.isCasado() && dia <= 60) {
-                            int capacidadeAtual = jogador.getCapacidadeTotalPropriedades();
+                            int capacidadeAtual = jogador.getCapacidadeImovel();
                             int membrosFamilia = jogador.getFamiliaSize();
 
                             if (membrosFamilia + 1 <= capacidadeAtual) {
@@ -219,8 +229,6 @@ public class Sims {
                 }
             }
 
-
-            // Evento que vai do dia 22 ao 60: filhos
 
             // Evento á nossa escolha nº1: acidente de carro!
             if (dia == 30) {
@@ -298,8 +306,42 @@ public class Sims {
 
         }
 
-
     }
+    public void cumprirObjetivoVida() {
+        if ((objetivo == ObjetivoVida.PROFESSOR_UNIVERSITARIO && this.jogador.getProfissao().getNome().equals("Professor Universitário")) ||
+                (objetivo == ObjetivoVida.CELEBRIDADE && this.jogador.getEstatuto() >= 100) ||
+                (objetivo == ObjetivoVida.SER_RICO && this.jogador.getDinheiro() >= 5000) ||
+                (objetivo == ObjetivoVida.FAMILIA_COMPLETA && this.jogador.getFamiliaSize() >= 5)) {
+            System.out.println("Parabéns! Cumpriste o teu objetivo de Vida");
+        } else if (jogador.getDinheiro() < 0) {
+            System.out.println("Perdeste o jogo por ter ficado com dividas! ");
+        } else {
+            Scanner input = new Scanner(System.in);
+            int opcao;
+            do {
+                System.out.println("Não atingiste o teu objetivo. O que queres fazer?");
+                System.out.println("1 - Voltar a jogar com a mesma personagem");
+                System.out.println("2 - Criar nova personagem");
+                System.out.println("3 - Sair do jogo");
+                opcao = input.nextInt();
 
+                switch (opcao) {
+                    case 1:
+                        jogo();
+                        break; // volta ao menu
+                    case 2:
+                        criarPessoa();
+                        jogo();
+                        break; // volta ao menu
+                    case 3:
+                        System.out.println("A sair do jogo");
+                        break; // sai do switch e do while
+                    default:
+                        System.out.println("Número não reconhecido");
+                }
+
+            } while (opcao != 3); // o ciclo só termina se a opção for 3
+        }
+    }
 }
 

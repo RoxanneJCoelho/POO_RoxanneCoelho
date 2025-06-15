@@ -212,18 +212,20 @@ public class Jogador extends Pessoa {
         return this.familiaJogador.size();
     }
 
-    public void getCapacidadeTotalPropriedades() {
-        for (Bens bens : this.bensMateriais){
-            if (bens instanceof Imovel && ((Imovel) bens).getCapacidadePessoas()>=getFamiliaSize()){
-                System.out.println("Tem Propriedade para Casar!");
-                int total;
-            }
-            else {
-                System.out.println("Não pode casar!");
+    public int getCapacidadeImovel() {
+        int capacidadeMaxima = 0;
+
+        for (Bens bens : this.bensMateriais) {
+            if (bens instanceof Imovel) {
+                Imovel imovel = (Imovel) bens;
+                int capacidade = imovel.getCapacidadePessoas();
+                if (capacidade > capacidadeMaxima) {
+                    capacidadeMaxima = capacidade;
+                }
             }
         }
-
-    } return total;
+        return capacidadeMaxima;
+    }
 
     /**
      * Remover um bem material da lista de bens materiais do jogador.
@@ -293,6 +295,20 @@ public class Jogador extends Pessoa {
         mostrarBensMateriais();
         mostrarFamilia();
     }
+
+    // ver beeeeeeeem esta funcao
+    public void retirarFilhos() {
+        if (this.dinheiro < -3250) {
+            for (int i = familiaJogador.size() - 1; i >= 0; i--) {
+                NPC npc = familiaJogador.get(i);
+                if (npc.getId() == 100) {
+                    removerfamilia(npc);
+                    System.out.println("A Segurança Social retirou-te os filhos!");
+                }
+            }
+        }
+    }
+
 }
 
 
