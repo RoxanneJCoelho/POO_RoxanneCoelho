@@ -12,6 +12,7 @@ import POO_RoxanneCoelho.Profissao.CatalogoProfissao;
 import java.util.Scanner;
 
 
+
 public class Sims {
     private Jogador jogador;
     private Shopping shopping;
