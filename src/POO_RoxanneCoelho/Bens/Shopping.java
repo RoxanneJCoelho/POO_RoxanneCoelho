@@ -136,7 +136,6 @@ public class Shopping {
             System.out.print("Insira uma opção: ");
             opcao = input.nextInt();
 
-            int idCompra;
 
             switch (opcao) {
                 case 1:

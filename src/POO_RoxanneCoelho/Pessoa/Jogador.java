@@ -9,7 +9,7 @@ import POO_RoxanneCoelho.Profissao.Profissao;
 import java.util.ArrayList;
 
 /**
- * Representa o jogador (uma subclasse de Pessoa), com atributos como objetivo de Vida, profissão, necessidades (Sono, Social, Refeicao), estatuto, escolaridade, lista de bens materiais e lista da família do jogador.
+ * Representa o jogador (uma subclasse de Pessoa), com atributos como objetivo de Vida, profissão, necessidades (Sono, Social, Refeicao), estatuto, escolaridade, lista de bens materiais, lista da família do jogador e o estado civil (casado ou não)
  */
 
 public class Jogador extends Pessoa {
@@ -37,6 +37,7 @@ public class Jogador extends Pessoa {
      * @param necessidadeSocial   a quantidade de socialização que o jogador possui (100 significa totalmente socializado, 0 significa deprimido)
      * @param estatuto            o nível de estatuto do jogador
      * @param escolaridade        o nível de escolaridade do jogador
+     * @param casado              true se for casado, false se não for
      */
 
     public Jogador(String nome, double dinheiro, ObjetivoVida objetivoVida, Profissao profissao, int necessidadeSono, int necessidadeRefeicao, int necessidadeSocial, int estatuto, int escolaridade, boolean casado) {
@@ -54,13 +55,6 @@ public class Jogador extends Pessoa {
     }
 
     // Getters
-    public boolean isCasado() {
-        return casado;
-    }
-
-    public void setCasado(boolean casado) {
-        this.casado = casado;
-    }
 
     /**
      * Obter a profissão do jogador.
@@ -116,6 +110,47 @@ public class Jogador extends Pessoa {
         return escolaridade;
     }
 
+    /**
+     * Obter o estado civil do jogador (true se for casado, false se não for)
+     *
+     * @return o nível de escolaridade do jogador
+     */
+    public boolean isCasado() {
+        return casado;
+    }
+
+    /**
+     * Obter o tamanho da familia do jogador
+     *
+     * @return o tamanho do arrayList da familia do jogador
+     */
+
+    public int getFamiliaSize() {
+        return this.familiaJogador.size();
+    }
+
+    /**
+     * Obter a capacidade do imovel com maior capacidade de pessoa dos bens do jogador
+     *
+     * @return o valor da capacidade do imovel
+     */
+
+
+    public int getCapacidadeMaxima() {
+        int capacidadeMaxima = 0;
+
+        for (Bens bens : this.bensMateriais) {
+            if (bens instanceof Imovel) { // procurar todos os imoveis
+                Imovel imovel = (Imovel) bens;
+                int capacidade = imovel.getCapacidadePessoas();
+                if (capacidade > capacidadeMaxima) { // se a capacidade atual for maior do que a capacidade do outro imovel, ele vai atualizando
+                    capacidadeMaxima = capacidade;
+                }
+            }
+        }
+        return capacidadeMaxima;
+    }
+
     // Setters
 
     /**
@@ -125,33 +160,6 @@ public class Jogador extends Pessoa {
      */
     public void setProfissao(Profissao profissao) {
         this.profissao = profissao;
-    }
-
-    /**
-     * Atualizar a necessidade de sono do jogador.
-     *
-     * @param necessidadeSono o novo valor da necessidade de sono
-     */
-    public void setNecessidadeSono(int necessidadeSono) {
-        this.necessidadeSono = necessidadeSono;
-    }
-
-    /**
-     * Atualizar a necessidade de refeição do jogador.
-     *
-     * @param necessidadeRefeicao o novo valor da necessidade de refeição
-     */
-    public void setNecessidadeRefeicao(int necessidadeRefeicao) {
-        this.necessidadeRefeicao = necessidadeRefeicao;
-    }
-
-    /**
-     * Definir a necessidade social do jogador.
-     *
-     * @param necessidadeSocial o novo valor da necessidade social
-     */
-    public void setNecessidadeSocial(int necessidadeSocial) {
-        this.necessidadeSocial = necessidadeSocial;
     }
 
     /**
@@ -174,6 +182,139 @@ public class Jogador extends Pessoa {
     }
 
     /**
+     * Atualizar o nível de escolaridade do jogador.
+     *
+     * @param casado o novo estado civil
+     */
+
+    public void setCasado(boolean casado) {
+        this.casado = casado;
+    }
+
+    /**
+     * Atualizar o dinheiro do jogador casado.
+     *
+     * @return o novo valor do dinheiro do jogador
+     */
+
+    public double dinheiroCasado() {
+        return this.dinheiro += 30;
+    }
+
+    /**
+     * Repor a necessidade de refeição para o valor máximo (120).
+     *
+     * @return o novo valor da necessidade de refeição
+     */
+
+    public int comerRefeicao() {
+        return this.necessidadeRefeicao = 120;
+    }
+
+    /**
+     * Pagar o custo de uma refeição do dinheiro do jogador.
+     *
+     * @return o novo valor do dinheiro
+     */
+
+    public double pagarRefeicao() {
+        return this.dinheiro -= 5;
+    }
+
+    /**
+     * Repor a necessidade de sono para o valor máximo (125).
+     *
+     * @return o novo valor da necessidade de sono
+     */
+
+    public int dormir() {
+        return this.necessidadeSono = 125;
+    }
+    /**
+     * Repõe a necessidade social para o valor máximo (115).
+     *
+     * @return o novo valor da necessidade social
+     */
+
+    public int socializar() {
+        return this.necessidadeSono = 115;
+    }
+
+    /**
+     * Calcular o custo da família baseado no número de membros e descontar do dinheiro.
+     *
+     * @return o novo valor atualizado do dinheiro
+     */
+
+    public double custoFamilia() {
+        int custoFamilia = this.familiaJogador.size() * 10;
+        this.dinheiro -= custoFamilia;
+        return this.dinheiro;
+    }
+
+    /**
+     * Aumentar o nível de escolaridade do jogador.
+     *
+     * @return o novo valor da escolaridade
+     */
+
+    public int terFormacao() {
+        return this.escolaridade += 2;
+    }
+
+    /**
+     * Diminui a necessidade de sono em 25 pontos.
+     *
+     * @return o novo valor da necessidade de sono.
+     */
+
+    public int diminuirSono() {
+        return this.necessidadeSono -= 25;
+    }
+
+    /**
+     * Diminui a necessidade de refeicao em 20 pontos.
+     *
+     * @return o novo valor da necessidade de refeicao.
+     */
+
+    public int diminuirRefeicao() {
+        return this.necessidadeRefeicao -= 20;
+    }
+
+    /**
+     * Diminui a necessidade social em 15 pontos.
+     *
+     * @return o novo valor da necessidade social
+     */
+
+    public int diminuirSocial() {
+        return this.necessidadeSocial -= 15;
+    }
+
+    /**
+     * Aumenta a necessidade social em 200 pontos.
+     *
+     * @return o novo valor da necessidade social
+     */
+
+    public int gatinhoPovoa() {
+        return this.necessidadeSocial += 200;
+    }
+
+    /**
+     * Aumenta a necessidade de sono em 150 pontos.
+     *
+     * @return o novo valor da necessidade social
+     */
+
+    public int cama() {
+        return this.necessidadeSono += 150;
+    }
+
+    // Outros métodos
+
+    /**
      * Adicionar um bem material à lista de bens materiais do jogador.
      *
      * @param bens o novo bem material
@@ -191,27 +332,6 @@ public class Jogador extends Pessoa {
         this.familiaJogador.add(npc);
     }
 
-    public int getFamiliaSize() {
-        return this.familiaJogador.size();
-    }
-
-    public int getCapacidadeImovel() {
-        int capacidadeMaxima = 0;
-
-        for (Bens bens : this.bensMateriais) {
-            if (bens instanceof Imovel) {
-                Imovel imovel = (Imovel) bens;
-                int capacidade = imovel.getCapacidadePessoas();
-                if (capacidade > capacidadeMaxima) {
-                    capacidadeMaxima = capacidade;
-                }
-            }
-        }
-        return capacidadeMaxima;
-    }
-
-
-
     /**
      * Remover um membro da família do jogador.
      *
@@ -222,10 +342,7 @@ public class Jogador extends Pessoa {
     }
 
     /**
-     * Imprimir no ecrã os detalhes completos dum jogador:
-     * o seu nome, o seu dinheiro, o seu objetivo de Vida, a sua profissão,
-     * as necessidades, o nível de estatuto, de escolaridade,
-     * a lista de bens materiais e da família
+     * Imprimir no ecrã os detalhes completos dos bens do jogador
      */
     public void mostrarBensMateriais() {
         System.out.println("Bens materiais:");
@@ -234,24 +351,22 @@ public class Jogador extends Pessoa {
         }
     }
 
-    public void ImovelValido(){
-        for (Bens bens : this.bensMateriais){
-            if (bens instanceof Imovel && ((Imovel) bens).getCapacidadePessoas()>=2){
-                System.out.println("Tem Propriedade para Casar!");
-            }
-            else {
-                System.out.println("Não pode casar!");
-            }
-        }
-    }
-
-
+    /**
+     * Imprimir no ecrã os detalhes completos da familia do jogador
+     */
     public void mostrarFamilia() {
         System.out.println("Família de " + this.nome + ": ");
         for (NPC npc : this.familiaJogador) {
             npc.mostrarNPC();
         }
     }
+
+    /**
+     * Imprimir no ecrã os detalhes completos dum jogador:
+     * o seu nome, o seu dinheiro, o seu objetivo de Vida, a sua profissão,
+     * as necessidades, o nível de estatuto, de escolaridade,
+     * a lista de bens materiais e da família
+     */
 
     public void mostrarDetalhes() {
         System.out.println("Nome: " + this.nome);
@@ -272,31 +387,55 @@ public class Jogador extends Pessoa {
         mostrarFamilia();
     }
 
-    // ver beeeeeeeem esta funcao
-    public void retirarFilhos() {
-        if (this.dinheiro < -3250) {
-            for (int i = familiaJogador.size() - 1; i >= 0; i--) {
-                NPC npc = familiaJogador.get(i);
-                if (npc.getId() == 100) {
-                    removerfamilia(npc);
-                    System.out.println("A Segurança Social retirou-te os filhos!");
-                }
+    /**
+     * Verificar se o jogador tem algum imóvel com capacidade para pelo menos 2 pessoas.
+     *
+     * @return true se tiver imóvel para casar, false se não
+     */
+
+    public boolean ImovelValido() {
+        for (Bens bens : this.bensMateriais) { // percorre os bens materiais do jogador
+            if (bens instanceof Imovel && ((Imovel) bens).getCapacidadePessoas() >= 2) { // se ele tiver um imovel com capacidade igual ao superior a 2 pessoas retorna true, senão retorna false
+                return true;
             }
+        }
+        return false;
+    }
+
+    /**
+     * Remover os filhos do jogador
+     */
+
+    public void retirarFilhos() {
+        ArrayList<NPC> filhosRemover = new ArrayList<NPC>(); // para nao causar exception, criamos um novo array onde vamos colocar todos os npcs com id 100 (os filhos)
+        for (NPC npc : this.familiaJogador) {
+            if (npc.getId() == 100) {
+                filhosRemover.add(npc);
+            }
+        }
+        for (NPC npc : filhosRemover) { // depois vamos ao array da familia e removemos os filhos
+            removerfamilia(npc);
+            System.out.println("A Segurança Social retirou-te os filhos!");
         }
     }
 
-    public boolean verAcessorioFormal(){
-        for (Bens bens: this.bensMateriais){
-            if (bens instanceof AcessorioModa){
-                if(((AcessorioModa) bens).isFormal()){
+    /**
+     * Verificar se o jogador tem algum acessorio formal
+     *
+     * @return true se tiver acessorio formal, false se não
+     */
+    public boolean verAcessorioFormal() {
+        for (Bens bens : this.bensMateriais) {
+            if (bens instanceof AcessorioModa) {
+                if (((AcessorioModa) bens).isFormal()) {
                     return true;
-
                 }
             }
-        } return false;
+        }
+        return false;
     }
-
 }
+
 
 
 

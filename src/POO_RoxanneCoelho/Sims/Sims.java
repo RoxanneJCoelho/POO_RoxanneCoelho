@@ -2,6 +2,7 @@ package POO_RoxanneCoelho.Sims;
 
 import POO_RoxanneCoelho.Bens.Imovel;
 import POO_RoxanneCoelho.Bens.Shopping;
+import POO_RoxanneCoelho.Bens.Veiculo;
 import POO_RoxanneCoelho.Pessoa.CatalogoNPC;
 import POO_RoxanneCoelho.Pessoa.Jogador;
 import POO_RoxanneCoelho.Enums.ObjetivoVida;
@@ -9,6 +10,11 @@ import POO_RoxanneCoelho.Pessoa.NPC;
 import POO_RoxanneCoelho.Profissao.CatalogoProfissao;
 
 import java.util.Scanner;
+import java.util.Random;
+
+/**
+ * Representa uma simulação de jogo estilo Sims, com atributos como Jogador, Shopping, CatalogoProfissao, CatalogoNPC e objetivoVida.
+ */
 
 public class Sims {
     private Jogador jogador;
@@ -17,23 +23,35 @@ public class Sims {
     private CatalogoNPC catalogoNPC;
     private ObjetivoVida objetivo;
 
+    /**
+     * Construtor da classe Sims
+     *
+     * @param shopping          o shopping onde o jogador poderá fazer compras
+     * @param catalogoProfissao a lista de profissões disponíveis
+     * @param catalogoNPC       a lista de NPCs disponíveis
+     */
+
     public Sims(Shopping shopping, CatalogoProfissao catalogoProfissao, CatalogoNPC catalogoNPC) {
         this.shopping = shopping;
         this.catalogoProfissao = catalogoProfissao;
         this.catalogoNPC = catalogoNPC;
     }
 
+    /**
+     * Criar um novo jogador
+     */
+
     public void criarPessoa() {
         Scanner input = new Scanner(System.in);
         System.out.println("******** Bem vind@ ao Jogo de Sims da Roxie! ********");
         System.out.println("Crie a sua personagem!");
 
-        System.out.print("Nome: ");
+        System.out.print("Nome: "); // Nome do jogador
         String nome = input.nextLine();
 
         int opcao;
 
-        do {
+        do { // enquanto o objetivo for nulo (não haver objetivo, ele vai perguntar qual o objetivo de Vida)
             System.out.println("Escolhe o teu objetivo de vida:");
             System.out.println("1 - PROFESSOR UNIVERSITÁRIO");
             System.out.println("2 - CELEBRIDADE");
@@ -61,62 +79,74 @@ public class Sims {
             }
         } while (objetivo == null);
 
+        // Jogador criado
         this.jogador = new Jogador(nome, 0, objetivo, null, 100, 100, 100, 0, 0, false);
         System.out.println("Personagem criada! Bem vind@, " + nome);
-
     }
 
+    /**
+     * Simula a vida de 100 dias do jogador
+     */
 
     public void jogo() {
         Scanner input = new Scanner(System.in);
-        int dia = 1;
+        int dia = 1; // comeca dia 1
 
         while (dia < 100) {
-            System.out.println("Dia nº " + dia);
-            String[] momentoDia = {"Manhã", "Meio-dia", "Tarde", "Noite"};
+            String[] momentoDia = {"Manhã", "Meio-dia", "Tarde", "Noite"}; // o dia é dividido em 4 momentos
 
             int opcao;
 
-            if (jogador.isCasado()) {
-                jogador.setDinheiro(jogador.getDinheiro() + 30);
-            } else if (jogador.getNecessidadeRefeicao() < 25) {
+            // decidi separar os ifs para o máximo de funçoes serem abrangidas ao mesmo tempo
+
+            // ifs sobre a vida de casado
+            if (this.jogador.isCasado() && this.jogador.getFamiliaSize() >= 3) { // se o jogador é casado e tem 3 ou mais elementos na família calcula o custo Familia
+                this.jogador.custoFamilia();
+            } else if (this.jogador.isCasado()) { // se for só casado, recebe o dinheiroCasado
+                this.jogador.dinheiroCasado();
+            }
+
+            // ifs sobre as necessidades
+            if (this.jogador.getNecessidadeRefeicao() < 25) { // se o jogador tiver com fome, enquanto não carregar a tecla 3 (ir comer), ficará no loop
                 do {
                     System.out.println("Estas com fome, vai comer! Escolhe a opção 3: ");
                     opcao = input.nextInt();
-                } while (opcao != 3);
-                jogador.setNecessidadeRefeicao(120);
-                jogador.setDinheiro(jogador.getDinheiro() - 5);
-            } else if (jogador.getNecessidadeSono() < 25) {
+                }
+                while (opcao != 3);
+
+                this.jogador.comerRefeicao(); // ao carregar em 3, ele come
+                this.jogador.pagarRefeicao(); // depois paga
+
+            } else if (this.jogador.getNecessidadeSono() < 25) { // se o jogador tiver com sono, enquanto não carregar a tecla 2 (ir dormir), ficará no loop
                 do {
+
                     System.out.println("Estas com sono, vai dormir! Escolhe a opção 2: ");
                     opcao = input.nextInt();
+
                 } while (opcao != 2);
-                jogador.setNecessidadeSono(125);
-            } else if (jogador.getNecessidadeSocial() < 25) {
+
+                this.jogador.dormir(); // ao carregar em 2, ele dorme
+
+            } else if (this.jogador.getNecessidadeSocial() < 25) { // se o jogador tiver com energia social, enquanto não carregar a tecla 4 (ir socializar), ficará no loop
                 do {
                     System.out.println("Sai do buraco e vai socializar! Escolhe a opção 4: ");
                     opcao = input.nextInt();
                 } while (opcao != 4);
-                jogador.setNecessidadeSocial(115);
-            } else if (jogador.isCasado() && dia <= 60) {
-                System.out.println("9 - Ter ou Adotar Filho");
+
+                this.jogador.socializar(); // ao carregar em 4 ele vai socializar
+            }
+            // if sobre os filhos
+            if (this.jogador.getDinheiro() <= -3250) {
+                this.jogador.retirarFilhos();
             }
 
-            // Custo diário por membro da família (reveeeer istoooooo)
-            if (jogador.getFamiliaSize()>=3){
-                int custoFamilia = jogador.getFamiliaSize() * 10;
-                jogador.setDinheiro(jogador.getDinheiro() - custoFamilia);
-                System.out.println("Pagaste " + custoFamilia + " euros para sustentar a tua família.");
-                jogador.retirarFilhos();
-            }
-
-
-            for (String momento : momentoDia) {
+            for (String momento : momentoDia) { // percorrer os momentos do dia
+                System.out.println("Dia nº " + dia);
                 System.out.println("Momento do dia: " + momento);
 
-                jogador.mostrarDetalhes();
+                this.jogador.mostrarDetalhes(); // mostra o estador atual do jogador
 
-                System.out.println("O que queres fazer?");
+                System.out.println("O que queres fazer?"); // mostra o menu
                 System.out.println("1 - Ir trabalhar");
                 System.out.println("2 - Dormir");
                 System.out.println("3 - Ter uma refeição");
@@ -125,6 +155,9 @@ public class Sims {
                 System.out.println("6 - Ter formação");
                 System.out.println("7 - Mostrar propriedades");
                 System.out.println("8 - Procurar outra profissao");
+                if (this.jogador.isCasado() && dia <= 60) { // esta função só aparece se o jogador for casado e o dia for menor que 60
+                    System.out.println("9 - Ter ou Adotar Filho");
+                }
                 System.out.println("0 - Sair do jogo");
                 System.out.println("Insira uma opção: ");
 
@@ -132,102 +165,115 @@ public class Sims {
 
                 switch (opcao) {
                     case 1:
-                        jogador.setDinheiro(jogador.getDinheiro() + jogador.getProfissao().getSalarioDia());
-                        System.out.println("Ganhou " + jogador.getProfissao().getSalarioDia() + " euros.");
+                        this.jogador.setDinheiro(this.jogador.getDinheiro() + this.jogador.getProfissao().getSalarioDia());
+                        System.out.println("Ganhou " + this.jogador.getProfissao().getSalarioDia() + " euros.");
                         break;
                     case 2:
-                        jogador.setNecessidadeSono(125);
+                        this.jogador.dormir();
                         break;
                     case 3:
-                        jogador.setNecessidadeRefeicao(120);
-                        jogador.setDinheiro(jogador.getDinheiro() - 5);
+                        this.jogador.comerRefeicao();
+                        this.jogador.pagarRefeicao();
                         break;
                     case 4:
-                        jogador.setNecessidadeSocial(115);
+                        this.jogador.socializar();
                         break;
                     case 5:
                         shopping.setJogador(this.jogador);
                         shopping.vender();
                         break;
                     case 6:
-                        jogador.setEscolaridade(jogador.getEscolaridade() + 2);
+                        this.jogador.terFormacao();
                         break;
                     case 7:
-                        System.out.println("Propriedades:");
-                        jogador.mostrarDetalhes();
+                        System.out.println("Propriedades de " + this.jogador.getNome() + ":");
+                        this.jogador.mostrarDetalhes();
                         break;
                     case 8:
-                        catalogoProfissao.trocarProfissao(this.jogador);
+                        this.catalogoProfissao.trocarProfissao(this.jogador);
                         break;
                     case 9:
-                        if (jogador.isCasado() && dia <= 60) {
-                            int capacidadeAtual = jogador.getCapacidadeImovel();
+                        if (this.jogador.isCasado() && dia <= 60) {
+                            int capacidadeAtual = jogador.getCapacidadeMaxima();
                             int membrosFamilia = jogador.getFamiliaSize();
 
-                            if (membrosFamilia + 1 <= capacidadeAtual) {
-                                NPC filho = new NPC("Filho(a)", 0, 100, 0); // Nome genérico; podes personalizar
-                                jogador.adicionarFamilia(filho);
+                            if (membrosFamilia + 1 <= capacidadeAtual) { // se os membros da atual familia mais o futuro filho forem em numero menor que a capacidade do imovel
+                                NPC npc = new NPC("Cria", 0, 100, 0); // cria um npc
+                                jogador.adicionarFamilia(npc); // adiciona o npc á familia
                                 System.out.println("Parabéns! Adicionaste um novo filho à tua família.");
                             } else {
-                                System.out.println("Não tens espaço suficiente nas propriedades para acolher um filho.");
+                                System.out.println("Não tens espaço suficiente no imóvel para acolher um filho.");
                             }
-                        } else {
-                            System.out.println("Esta opção não está disponível.");
                         }
                         break;
-
                     case 0:
                         System.out.println("A sair do jogo...");
-                        return;
+                        break;
                     default:
                         System.out.println("Opção inválida.");
                 }
                 // Diminuir necessidades
-                jogador.setNecessidadeSono(jogador.getNecessidadeSono() - 25);
-                jogador.setNecessidadeRefeicao(jogador.getNecessidadeRefeicao() - 20);
-                jogador.setNecessidadeSocial(jogador.getNecessidadeSocial() - 15);
+                jogador.diminuirSono();
+                jogador.diminuirRefeicao();
+                jogador.diminuirSocial();
             }
 
             dia++;
 
             // Evento obrigatório no dia 5: universidade
             if (dia == 5) {
-                System.out.println("Deseja ir para a universidade?");
-                System.out.println(" 1 - Sim");
-                System.out.println(" 2 - Não");
+                System.out.println("Queres ir para a universidade?");
+                System.out.println("1 - Sim");
+                System.out.println("2 - Não");
+                System.out.println("Insira uma opção: ");
                 opcao = input.nextInt();
+                input.nextLine();
 
-                if (opcao == 1) {
-                    jogador.setEscolaridade(jogador.getEscolaridade() + 50);
-                    jogador.setDinheiro(jogador.getDinheiro() - 3000);
-                    System.out.println("Inscreveu-se na universidade. Educação aumentou 50 pontos, mas contraiu uma dívida de 3000 euros.");
-                } else {
-                    System.out.println("Decidiu não ir para a universidade.");
+                switch (opcao) {
+                    case 1:
+                        jogador.setEscolaridade(jogador.getEscolaridade() + 50); // ganhou 50 pontos de escolaridade
+                        jogador.setDinheiro(jogador.getDinheiro() - 3000); // perdeu 3000 euros
+                        System.out.println("Inscreveste-se na universidade. Educação aumentou 50 pontos, mas contraiu uma dívida de 3000 euros.");
+                        break;
+                    case 2:
+                        System.out.println("Decidiste não ir para a universidade.");
+                        break;
+                    default:
+                        System.out.println("Opção não reconhecida");
+
                 }
             }
 
             // Evento obrigatório no dia 22: casamento
-            if (dia == 2) {
-                System.out.println("Deseja casar?");
+            if (dia == 22) {
+                System.out.println("Queres casar?");
                 System.out.println(" 1 - Sim");
                 System.out.println(" 2 - Não");
                 opcao = input.nextInt();
 
-                this.jogador.ImovelValido();
 
-                if (opcao == 1) {
-                    System.out.println("Eis os seus pretendentes: ");
-                    catalogoNPC.imprimirNPC();
-                    System.out.println("Com quem deseja casar? Insira o ID da pessoa: ");
-                    int idNPC = input.nextInt();
-                    catalogoNPC.casar(idNPC, this.jogador);
-                } else {
-                    System.out.println("Decidiu não se casar.");
+                switch (opcao) {
+                    case 1:
+                        if (this.jogador.ImovelValido()) { // se tiver um imovel com capacidade para 2 pessoas, mostra a lista de npcs
+                            System.out.println("Eis os seus pretendentes: ");
+                            catalogoNPC.imprimirNPC();
+                            System.out.println("Com quem deseja casar? Insira o ID da pessoa: ");
+                            int idNPC = input.nextInt();
+                            catalogoNPC.casar(idNPC, this.jogador);
+                        } else {
+                            System.out.println("Não tem propriedade para casar!");
+                        }
+                        break;
+                    case 2:
+                        System.out.println("Decidiste não te casar.");
+                        break;
+                    default:
+                        System.out.println("Opção não reconhecida.");
                 }
+
             }
 
-
-            // Evento á nossa escolha nº1: acidente de carro!
+            // Evento á nossa escolha nº1: acidente de carro
             if (dia == 30) {
                 System.out.println("Tiveste um acidente de carro, vais ter uma despesa grande para arranjar o carro!");
                 jogador.setDinheiro(jogador.getDinheiro() - 300);
@@ -236,83 +282,93 @@ public class Sims {
             // Evento á nossa escolha nº2: heranca
             if (dia == 50) {
                 System.out.println("Ganhaste de herança um apartamento!");
-
-                // Criar o apartamento herdado
-                Imovel apartamento = new Imovel(90, "Apartamento de herança", 0, 20, 3); // nome, custo, estatuto
-
-                // Adicionar à lista de bens do jogador
-                jogador.adicionarBem(apartamento);
-
-                // Aumentar o estatuto do jogador com o valor do imóvel
-                jogador.setEstatuto(jogador.getEstatuto() + apartamento.getEstatuto());
-
-                System.out.println("Estatuto aumentado! Novo estatuto: " + jogador.getEstatuto());
+                Imovel apartamento = new Imovel(90, "Apartamento de herança", 0, 200, 3); // novo imovel
+                jogador.adicionarBem(apartamento); // adicionar á lista de bens do jogador
+                jogador.setEstatuto(jogador.getEstatuto() + apartamento.getEstatuto()); // aumenta estatuto
             }
 
             // Evento á nossa escolha nº3: jogar no euromilhoes
             if (dia == 35) {
-                System.out.println("Evento especial: Euromilhões!");
+                System.out.println("Foste com o teu pai jogar ao euromilhões, apesar de não achares muita piada a jogos de azar.");
 
-                if (jogador.getDinheiro() >= 10) {
-                    jogador.setDinheiro(jogador.getDinheiro() - 10);
-                    System.out.println("Pagou 10€ para jogar no Euromilhões.");
+                if (jogador.getDinheiro() >= 6) { // se tiver dinheiro para pagar, joga
+                    jogador.setDinheiro(jogador.getDinheiro() - 6);
+                    System.out.println("Pagaste 6 € para jogar no euromilhões.");
 
-                    System.out.print("Escolhe um número entre 1 e 200: ");
+                    System.out.print("Escolhe um número inteiro entre 1 e 200: ");
                     int numeroJogador = input.nextInt();
 
-                    int numeroSorteado = (int) (Math.random() * 200) + 1;
+                    Random rd = new Random();
 
-                    if (numeroJogador == numeroSorteado) {
-                        jogador.setDinheiro(jogador.getDinheiro() + 1_000_000);
-                        System.out.println("Parabéns!!! Ganhou 1.000.000€!");
+                    int numeroSorteado = rd.nextInt(1, 200);
+
+                    if (numeroJogador == numeroSorteado) { // se acertar ganha 1 milhao, senão mostra o numero sorteado
+                        jogador.setDinheiro(jogador.getDinheiro() + 1000000);
+                        System.out.println("Parabéns!!! Ganhaste 1 milhão yaaaaaay!");
                     } else {
                         System.out.println("Não foi desta vez. O número sorteado foi: " + numeroSorteado);
                     }
-
                 } else {
-                    System.out.println("Dinheiro insuficiente para jogar no Euromilhões.");
+                    System.out.println("Não tens dinheiro suficiente para jogar no euromilhões.");
                 }
             }
 
-            // Exemplo: Dia 10 - Festa surpresa
+            // Evento á nossa escolha nº4: fazer festinhas nos Gatinhos da Ecovia da Povoa
             if (dia == 10) {
-                System.out.println("Foste a uma festa surpresa com amigos! +10 à necessidade social.");
-                jogador.setNecessidadeSocial(Math.min(jogador.getNecessidadeSocial() + 10, 100));
+                System.out.println("Encontraste um gatinho da Póvoa pelo caminho, ganhaste uma bomba de energia social!");
+                this.jogador.gatinhoPovoa();
+
             }
 
-            // Exemplo: Dia 15 - Doença leve
+            // Evento á nossa escolha nº5: ficar de cama
             if (dia == 15) {
-                System.out.println("Apanhaste uma doença leve. Precisas de descansar.");
-                jogador.setNecessidadeSono(jogador.getNecessidadeSono() - 20);
+                System.out.println("Oh não, deu-te uma diarreira muito grande. Vais ficar uns dias de cama...");
+                this.jogador.cama();
             }
 
-            // Exemplo: Dia 25 - Compra de carro
+            // Evento á nossa escolha nº6: comprar um carro na promoção
             if (dia == 25) {
-                double precoCarro = 10000;
-                System.out.println("Oportunidade de comprar um carro por " + precoCarro + " euros. Queres comprar? (1-Sim / 0-Não)");
-                opcao = input.nextInt();
-                if (opcao == 1 && jogador.getDinheiro() >= precoCarro) {
-                    jogador.setDinheiro(jogador.getDinheiro() - precoCarro);
-                    jogador.setEstatuto(jogador.getEstatuto() + 15);
-                    System.out.println("Compraste um carro! +15 ao estatuto.");
-                } else {
-                    System.out.println("Não compraste o carro.");
+                Veiculo carroPrenda = new Veiculo(55, "Carro Desconto", 500, 15, "Ford", "500");
+
+                System.out.println("Oportunidade de comprar um carro por " + carroPrenda.getCusto() + " euros. Queres comprar?");
+                System.out.println("1 - Sim");
+                System.out.println("2 - Não");
+                int opcao1 = input.nextInt();
+
+                switch (opcao1) {
+                    case 1:
+                        if (jogador.getDinheiro() >= carroPrenda.getCusto()) {
+                            jogador.setDinheiro(jogador.getDinheiro() - carroPrenda.getCusto());
+                            jogador.setEstatuto(jogador.getEstatuto() + 15);
+                            System.out.println("Compraste um carro!");
+                        } else {
+                            System.out.println("Não tens dinheiro para comprar o carro.");
+                        }
+                        break;
+                    case 2:
+                        System.out.println("Decidiste não comprar o carro.");
+                        break;
+                    default:
+                        System.out.println("Opção não reconhecida.");
+
                 }
             }
-
-
         }
-
     }
+
+    /**
+     * Avalia se o objetivo de vida foi cumprido
+     */
+
     public void cumprirObjetivoVida() {
-        if ((objetivo == ObjetivoVida.PROFESSOR_UNIVERSITARIO && this.jogador.getProfissao().getNome().equals("Professor Universitário")) ||
-                (objetivo == ObjetivoVida.CELEBRIDADE && this.jogador.getEstatuto() >= 100) ||
+        if (jogador.getDinheiro() < 0) { // o jogador não pode ficar com dívidas, senão ele automaticamente perde
+            System.out.println("Perdeste o jogo por teres ficado com dividas! ");
+        } else if ((objetivo == ObjetivoVida.PROFESSOR_UNIVERSITARIO && this.jogador.getProfissao().getNome().equals("Professor Universitário")) ||
+                (objetivo == ObjetivoVida.CELEBRIDADE && this.jogador.getEstatuto() >= 300) ||
                 (objetivo == ObjetivoVida.SER_RICO && this.jogador.getDinheiro() >= 5000) ||
                 (objetivo == ObjetivoVida.FAMILIA_COMPLETA && this.jogador.getFamiliaSize() >= 5)) {
-            System.out.println("Parabéns! Cumpriste o teu objetivo de Vida");
-        } else if (jogador.getDinheiro() < 0) {
-            System.out.println("Perdeste o jogo por ter ficado com dividas! ");
-        } else {
+            System.out.println("Parabéns! Cumpriste o teu objetivo de Vida"); // se ele cumprir aparece mensagem de parabens
+        } else { // se não ganhar, dá para escolher entre voltar a jogar com a mesma personagem, criar nova personagem ou sair
             Scanner input = new Scanner(System.in);
             int opcao;
             do {
@@ -325,20 +381,21 @@ public class Sims {
                 switch (opcao) {
                     case 1:
                         jogo();
-                        break; // volta ao menu
+                        break;
                     case 2:
                         criarPessoa();
                         jogo();
-                        break; // volta ao menu
+                        break;
                     case 3:
-                        System.out.println("A sair do jogo");
-                        break; // sai do switch e do while
+                        System.out.println("A sair do jogo...");
+                        break;
                     default:
-                        System.out.println("Número não reconhecido");
+                        System.out.println("Opção não reconhecida");
                 }
 
-            } while (opcao != 3); // o ciclo só termina se a opção for 3
+            } while (opcao != 3);
         }
     }
 }
+
 

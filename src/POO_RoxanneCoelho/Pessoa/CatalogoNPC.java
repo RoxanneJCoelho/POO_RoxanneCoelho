@@ -49,7 +49,7 @@ public class CatalogoNPC {
                 if (npc.getEstatutoMinimo() <= jogador.getEstatuto()) { // se o jogador tiver maior ou igual estatuto que o npc, casam-se
                     System.out.println("Parabéns! Casaste com " + npc.getNome() + "!"); // mensagem de confirmação
                     jogador.setDinheiro(jogador.getDinheiro() + npc.getDinheiro()); // o jogador ganha o dinheiro do NPC
-                    jogador.setCasado(true); // altera o estado para casaco
+                    jogador.setCasado(true); // altera o estado para casado
                     jogador.adicionarFamilia(npc); // adiciona o npc na familia do jogador
                 } else { // se o jogador tiver menos estatuto, não se casam
                     System.out.println(npc.getNome() + " não quer casar contigo. O teu estatuto é demasiado baixo!");
