@@ -28,24 +28,16 @@ public class AcessorioModa extends Bens {
     // Getters
 
     /**
-     * Obter a marca do acessório.
-     *
-     * @return a marca do acessório
-     */
-
-    public String getMarca() {
-        return marca;
-    }
-
-    /**
      * Indicar se o acessório é formal ou informal.
      *
      * @return true se for um acessório formal; false se for informal
      */
 
-    public boolean getFormal() {
+    public boolean isFormal() {
         return formal;
     }
+
+    // Outros métodos
 
     /**
      * Imprimir os detalhes completos do acessório.

@@ -8,24 +8,20 @@ import POO_RoxanneCoelho.Enums.ObjetivoVida;
 import POO_RoxanneCoelho.Pessoa.NPC;
 import POO_RoxanneCoelho.Profissao.CatalogoProfissao;
 
-
 import java.util.Scanner;
-
-
 
 public class Sims {
     private Jogador jogador;
     private Shopping shopping;
     private CatalogoProfissao catalogoProfissao;
     private CatalogoNPC catalogoNPC;
+    private ObjetivoVida objetivo;
 
     public Sims(Shopping shopping, CatalogoProfissao catalogoProfissao, CatalogoNPC catalogoNPC) {
         this.shopping = shopping;
         this.catalogoProfissao = catalogoProfissao;
         this.catalogoNPC = catalogoNPC;
     }
-
-    ObjetivoVida objetivo;
 
     public void criarPessoa() {
         Scanner input = new Scanner(System.in);
@@ -34,7 +30,6 @@ public class Sims {
 
         System.out.print("Nome: ");
         String nome = input.nextLine();
-
 
         int opcao;
 
@@ -68,13 +63,11 @@ public class Sims {
 
         this.jogador = new Jogador(nome, 0, objetivo, null, 100, 100, 100, 0, 0, false);
         System.out.println("Personagem criada! Bem vind@, " + nome);
-        this.shopping.setJogador(this.jogador);
+
     }
 
 
     public void jogo() {
-        Jogador jogador = this.jogador;
-
         Scanner input = new Scanner(System.in);
         int dia = 1;
 
@@ -82,15 +75,40 @@ public class Sims {
             System.out.println("Dia nº " + dia);
             String[] momentoDia = {"Manhã", "Meio-dia", "Tarde", "Noite"};
 
+            int opcao;
+
             if (jogador.isCasado()) {
                 jogador.setDinheiro(jogador.getDinheiro() + 30);
+            } else if (jogador.getNecessidadeRefeicao() < 25) {
+                do {
+                    System.out.println("Estas com fome, vai comer! Escolhe a opção 3: ");
+                    opcao = input.nextInt();
+                } while (opcao != 3);
+                jogador.setNecessidadeRefeicao(120);
+                jogador.setDinheiro(jogador.getDinheiro() - 5);
+            } else if (jogador.getNecessidadeSono() < 25) {
+                do {
+                    System.out.println("Estas com sono, vai dormir! Escolhe a opção 2: ");
+                    opcao = input.nextInt();
+                } while (opcao != 2);
+                jogador.setNecessidadeSono(125);
+            } else if (jogador.getNecessidadeSocial() < 25) {
+                do {
+                    System.out.println("Sai do buraco e vai socializar! Escolhe a opção 4: ");
+                    opcao = input.nextInt();
+                } while (opcao != 4);
+                jogador.setNecessidadeSocial(115);
+            } else if (jogador.isCasado() && dia <= 60) {
+                System.out.println("9 - Ter ou Adotar Filho");
             }
 
             // Custo diário por membro da família (reveeeer istoooooo)
-            int custoFamilia = jogador.getFamiliaSize() * 10;
-            jogador.setDinheiro(jogador.getDinheiro() - custoFamilia);
-            System.out.println("Pagaste " + custoFamilia + " euros para sustentar a tua família.");
-            jogador.retirarFilhos();
+            if (jogador.getFamiliaSize()>=3){
+                int custoFamilia = jogador.getFamiliaSize() * 10;
+                jogador.setDinheiro(jogador.getDinheiro() - custoFamilia);
+                System.out.println("Pagaste " + custoFamilia + " euros para sustentar a tua família.");
+                jogador.retirarFilhos();
+            }
 
 
             for (String momento : momentoDia) {
@@ -110,30 +128,7 @@ public class Sims {
                 System.out.println("0 - Sair do jogo");
                 System.out.println("Insira uma opção: ");
 
-                int opcao = input.nextInt();
-
-                if (jogador.getNecessidadeRefeicao() < 25) {
-                    do {
-                        System.out.println("Estas com fome, vai comer! Escolhe a opção 3: ");
-                        opcao = input.nextInt();
-                    } while (opcao != 3);
-                    jogador.setNecessidadeRefeicao(120);
-                    jogador.setDinheiro(jogador.getDinheiro() - 5);
-                } else if (jogador.getNecessidadeSono() < 25) {
-                    do {
-                        System.out.println("Estas com sono, vai dormir! Escolhe a opção 2: ");
-                        opcao = input.nextInt();
-                    } while (opcao != 2);
-                    jogador.setNecessidadeSono(125);
-                } else if (jogador.getNecessidadeSocial() < 25) {
-                    do {
-                        System.out.println("Sai do buraco e vai socializar! Escolhe a opção 4: ");
-                        opcao = input.nextInt();
-                    } while (opcao != 4);
-                    jogador.setNecessidadeSocial(115);
-                } else if (jogador.isCasado() && dia <= 60) {
-                    System.out.println("9 - Ter ou Adotar Filho");
-                }
+                opcao = input.nextInt();
 
                 switch (opcao) {
                     case 1:
@@ -151,6 +146,7 @@ public class Sims {
                         jogador.setNecessidadeSocial(115);
                         break;
                     case 5:
+                        shopping.setJogador(this.jogador);
                         shopping.vender();
                         break;
                     case 6:
@@ -199,7 +195,7 @@ public class Sims {
                 System.out.println("Deseja ir para a universidade?");
                 System.out.println(" 1 - Sim");
                 System.out.println(" 2 - Não");
-                int opcao = input.nextInt();
+                opcao = input.nextInt();
 
                 if (opcao == 1) {
                     jogador.setEscolaridade(jogador.getEscolaridade() + 50);
@@ -211,11 +207,11 @@ public class Sims {
             }
 
             // Evento obrigatório no dia 22: casamento
-            if (dia == 22) {
+            if (dia == 2) {
                 System.out.println("Deseja casar?");
                 System.out.println(" 1 - Sim");
                 System.out.println(" 2 - Não");
-                int opcao = input.nextInt();
+                opcao = input.nextInt();
 
                 this.jogador.ImovelValido();
 
@@ -294,7 +290,7 @@ public class Sims {
             if (dia == 25) {
                 double precoCarro = 10000;
                 System.out.println("Oportunidade de comprar um carro por " + precoCarro + " euros. Queres comprar? (1-Sim / 0-Não)");
-                int opcao = input.nextInt();
+                opcao = input.nextInt();
                 if (opcao == 1 && jogador.getDinheiro() >= precoCarro) {
                     jogador.setDinheiro(jogador.getDinheiro() - precoCarro);
                     jogador.setEstatuto(jogador.getEstatuto() + 15);

@@ -33,7 +33,7 @@ public class Main {
         NPC npc1 = new NPC("Chico da Tina", 5000, 1, 200);
         NPC npc2 = new NPC("Rosinha", 3000, 2, 100);
         NPC npc3 = new NPC("Lídia Jorge", 2000, 3, 90);
-        NPC npc4 = new NPC("Roxanne Coelho", 500, 4, 20);
+        NPC npc4 = new NPC("Roxanne Coelho", 500, 4, 0);
         NPC npc5 = new NPC("Vítor Santos", 1000, 5, 20);
 
         catalogoNPC.adicionarNPC(npc1);
@@ -88,7 +88,7 @@ public class Main {
         shopping.adicionarItem(veiculo9);
         shopping.adicionarItem(veiculo10);
 
-        AcessorioModa acessorioModa1 = new AcessorioModa(21, "Boné", 20, 2, "Nike", false);
+        AcessorioModa acessorioModa1 = new AcessorioModa(21, "Boné", 20, 2, "Nike", true);
         AcessorioModa acessorioModa2 = new AcessorioModa(22, "Óculos de Sol", 150, 10, "Ray-Ban", false);
         AcessorioModa acessorioModa3 = new AcessorioModa(23, "Relógio de Pulso", 200, 15, "Casio", false);
         AcessorioModa acessorioModa4 = new AcessorioModa(24, "Bolsa", 2000, 50, "Chanel", true);

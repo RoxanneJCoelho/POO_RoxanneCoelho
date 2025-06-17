@@ -34,6 +34,8 @@ public class Imovel extends Bens {
         return capacidadePessoas;
     }
 
+    // Outros métodos
+
     /**
      * Imprimir os detalhes completos do imóvel.
      * Primeiro, chama o método da superclasse para mostrar o nome, custo e estatuto.

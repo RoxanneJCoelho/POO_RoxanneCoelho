@@ -2,7 +2,7 @@ package POO_RoxanneCoelho.Profissao;
 
 /**
  * Representa uma profissão que o jogador pode ter no jogo,
- * com atributos como nome, salário por dia, se é formal ou não, estatuto e um nível mínimo de escolaridade necessário.
+ * com atributos como id, nome, salário por dia, se é formal ou não, estatuto e um nível mínimo de escolaridade necessário.
  */
 
 public class Profissao {
@@ -32,7 +32,6 @@ public class Profissao {
         this.estatuto = estatuto;
         this.nivelMinimoEscolaridade = nivelMinimoEscolaridade;
     }
-
 
     // Getters
 
@@ -72,7 +71,7 @@ public class Profissao {
      * @return true se for uma profissão formal; false se for informal
      */
 
-    public boolean getFormal() {
+    public boolean isFormal() {
         return formal;
     }
 
@@ -95,6 +94,12 @@ public class Profissao {
     public int getNivelMinimoEscolaridade() {
         return nivelMinimoEscolaridade;
     }
+
+    // Outros métodos
+
+    /**
+     * Imprimir no ecrã os detalhes completos da profissao: o seu id, nome, salário por dia, se é formal ou não, estatuto e nível mínimo de escolaridade
+     */
 
     public void profissoesDetalhes() {
         System.out.println("Profissao nº: " + this.id + " | Nome: " + this.nome + " | Salário por dia: " + this.salarioDia + " euros | Formal: " + this.formal + " | Estatuto: " + this.estatuto + " | Nível Mínimo de Escolaridade: " + this.nivelMinimoEscolaridade);

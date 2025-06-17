@@ -1,7 +1,7 @@
 package POO_RoxanneCoelho.Bens;
 
 /**
- * Representa um bem que pode ser adquirido pelo jogador, com atributos como nome, custo e estatuto.
+ * Representa um bem que pode ser adquirido pelo jogador, com atributos como id, nome, custo e estatuto.
  */
 
 public class Bens {
@@ -67,6 +67,8 @@ public class Bens {
     public int getEstatuto() {
         return estatuto;
     }
+
+    // Outros métodos
 
     /**
      * Imprimir no ecrã os detalhes completos dum bem: o seu nome, o seu custo e o nível atual do seu estatuto.

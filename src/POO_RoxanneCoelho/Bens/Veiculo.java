@@ -25,27 +25,7 @@ public class Veiculo extends Bens {
         this.modelo = modelo;
     }
 
-    //Getters
-
-    /**
-     * Obter a marca do veículo.
-     *
-     * @return a marca do veículo
-     */
-
-    public String getMarca() {
-        return marca;
-    }
-
-    /**
-     * Obter o modelo do veículo.
-     *
-     * @return o modelo do veículo
-     */
-
-    public String getModelo() {
-        return modelo;
-    }
+    // Outros métodos
 
     /**
      * Imprimir os detalhes completos do veículo.

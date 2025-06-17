@@ -1,5 +1,6 @@
 package POO_RoxanneCoelho.Pessoa;
 
+import POO_RoxanneCoelho.Bens.AcessorioModa;
 import POO_RoxanneCoelho.Bens.Bens;
 import POO_RoxanneCoelho.Bens.Imovel;
 import POO_RoxanneCoelho.Enums.ObjetivoVida;
@@ -8,7 +9,7 @@ import POO_RoxanneCoelho.Profissao.Profissao;
 import java.util.ArrayList;
 
 /**
- * Representa o jogador (uma subclasse de Pessoa), com atributos como objetivo de Vida, profissão, necessidades (Sono, Social, Refeicao), estatuto, escolaridade, lista de bens materiais e família do jogador.
+ * Representa o jogador (uma subclasse de Pessoa), com atributos como objetivo de Vida, profissão, necessidades (Sono, Social, Refeicao), estatuto, escolaridade, lista de bens materiais e lista da família do jogador.
  */
 
 public class Jogador extends Pessoa {
@@ -21,7 +22,7 @@ public class Jogador extends Pessoa {
     private int escolaridade;
     private ArrayList<Bens> bensMateriais;
     private ArrayList<NPC> familiaJogador;
-    private boolean casado = false;
+    private boolean casado;
 
 
     /**
@@ -59,15 +60,6 @@ public class Jogador extends Pessoa {
 
     public void setCasado(boolean casado) {
         this.casado = casado;
-    }
-
-    /**
-     * Obter o objetivo de Vida do jogador.
-     *
-     * @return o objetivo de Vida do jogador
-     */
-    public ObjetivoVida getObjetivoVida() {
-        return objetivoVida;
     }
 
     /**
@@ -125,15 +117,6 @@ public class Jogador extends Pessoa {
     }
 
     // Setters
-
-    /**
-     * Atualizar o objetivo de vida do jogador.
-     *
-     * @param objetivoVida o novo objetivo de vida
-     */
-    public void setObjetivoVida(ObjetivoVida objetivoVida) {
-        this.objetivoVida = objetivoVida;
-    }
 
     /**
      * Atualizar a profissão do jogador.
@@ -227,14 +210,7 @@ public class Jogador extends Pessoa {
         return capacidadeMaxima;
     }
 
-    /**
-     * Remover um bem material da lista de bens materiais do jogador.
-     *
-     * @param bens o bem material a ser removido
-     */
-    public void removerBem(Bens bens) {
-        this.bensMateriais.remove(bens);
-    }
+
 
     /**
      * Remover um membro da família do jogador.
@@ -307,6 +283,17 @@ public class Jogador extends Pessoa {
                 }
             }
         }
+    }
+
+    public boolean verAcessorioFormal(){
+        for (Bens bens: this.bensMateriais){
+            if (bens instanceof AcessorioModa){
+                if(((AcessorioModa) bens).isFormal()){
+                    return true;
+
+                }
+            }
+        } return false;
     }
 
 }

@@ -1,7 +1,7 @@
 package POO_RoxanneCoelho.Pessoa;
 
 /**
- * Representa um NPC (uma subclasse de Pessoa), com atributos como estatuto mínimo.
+ * Representa um NPC (uma subclasse de Pessoa), com atributos como id e estatuto mínimo.
  */
 
 public class NPC extends Pessoa {
@@ -45,11 +45,13 @@ public class NPC extends Pessoa {
         return estatutoMinimo;
     }
 
+    // Outros métodos
+
     /**
      * Imprimir no ecrã os detalhes completos dum NPC: o seu nome, o seu dinheiro e o seu estatuto.
      */
 
     public void mostrarNPC() {
-        System.out.println("ID nº: " + this.id + "Nome: " + this.nome + " | Dinheiro:  " + this.dinheiro + " | Estatuto Mínimo: " + this.estatutoMinimo);
+        System.out.println("ID nº: " + this.id + " | Nome: " + this.nome + " | Dinheiro:  " + this.dinheiro + " | Estatuto Mínimo: " + this.estatutoMinimo);
     }
 }
