@@ -10,14 +10,16 @@ import POO_RoxanneCoelho.Profissao.CatalogoProfissao;
 import POO_RoxanneCoelho.Bens.Shopping;
 import POO_RoxanneCoelho.Sims.Sims;
 
+import static java.lang.Thread.sleep;
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException{
 
         // criar o catalogo das profissões
         CatalogoProfissao catalogoProfissao = new CatalogoProfissao();
 
         // criar profissoes
-        Profissao prof1 = new Profissao(1, "Caixa de Supermercado", 40, false, 0, 0);
+        Profissao prof1 = new Profissao(1, "Caixa de Supermercado", 840, false, 0, 0);
         Profissao prof2 = new Profissao(2, "Babysitter", 40, false, 0, 0);
         Profissao prof3 = new Profissao(3, "Bancari@", 80, true, 50, 50);
         Profissao prof4 = new Profissao(4, "Técnic@ de Laboratório", 130, false, 80, 80);
@@ -34,7 +36,7 @@ public class Main {
         CatalogoNPC catalogoNPC = new CatalogoNPC();
 
         // criar npcs
-        NPC npc1 = new NPC("Chico da Tina", 5000, 1, 200);
+        NPC npc1 = new NPC("Chico da Tina", 5, 1, 200);
         NPC npc2 = new NPC("Rosinha", 3000, 2, 100);
         NPC npc3 = new NPC("Lídia Jorge", 2000, 3, 90);
         NPC npc4 = new NPC("Roxanne Coelho", 500, 4, 0);
@@ -53,7 +55,7 @@ public class Main {
         // criar imóveis
         Imovel imovel1 = new Imovel(1, "Apartamento T1", 150000, 70, 3);
         Imovel imovel2 = new Imovel(2, "Apartamento T2", 300000, 150, 4);
-        Imovel imovel3 = new Imovel(3, "Mansão de Luxo", 1500000, 800, 14);
+        Imovel imovel3 = new Imovel(3, "Mansão de Luxo", 150000, 800, 14);
         Imovel imovel4 = new Imovel(4, "Casa Geminada", 500000, 200, 4);
         Imovel imovel5 = new Imovel(5, "Casa na Praia", 750000, 400, 7);
         Imovel imovel6 = new Imovel(6, "Apartamento T0", 120000, 50, 2);
@@ -99,7 +101,7 @@ public class Main {
         shopping.adicionarItem(veiculo10);
 
         // criar acessórios de moda
-        AcessorioModa acessorioModa1 = new AcessorioModa(21, "Boné", 20, 2, "Nike", true);
+        AcessorioModa acessorioModa1 = new AcessorioModa(21, "Boné", 20, 2, "Nike", false);
         AcessorioModa acessorioModa2 = new AcessorioModa(22, "Óculos de Sol", 150, 10, "Ray-Ban", false);
         AcessorioModa acessorioModa3 = new AcessorioModa(23, "Relógio de Pulso", 200, 15, "Casio", false);
         AcessorioModa acessorioModa4 = new AcessorioModa(24, "Bolsa", 2000, 50, "Chanel", true);
@@ -125,6 +127,7 @@ public class Main {
         // criar um novo Sims e iniciar o jogo
         Sims jogo = new Sims(shopping, catalogoProfissao, catalogoNPC);
         jogo.criarPessoa();
+        sleep(2000); // dá uma pausa de 2 segundos
         jogo.jogo();
         jogo.cumprirObjetivoVida();
 

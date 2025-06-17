@@ -202,13 +202,13 @@ public class Jogador extends Pessoa {
     }
 
     /**
-     * Repor a necessidade de refeição para o valor máximo (120).
+     * Repor a necessidade de refeição para o valor máximo.
      *
      * @return o novo valor da necessidade de refeição
      */
 
     public int comerRefeicao() {
-        return this.necessidadeRefeicao = 120;
+        return this.necessidadeRefeicao = 100;
     }
 
     /**
@@ -222,22 +222,22 @@ public class Jogador extends Pessoa {
     }
 
     /**
-     * Repor a necessidade de sono para o valor máximo (125).
+     * Repor a necessidade de sono para o valor máximo.
      *
      * @return o novo valor da necessidade de sono
      */
 
     public int dormir() {
-        return this.necessidadeSono = 125;
+        return this.necessidadeSono = 100;
     }
     /**
-     * Repõe a necessidade social para o valor máximo (115).
+     * Repõe a necessidade social para o valor máximo.
      *
      * @return o novo valor da necessidade social
      */
 
     public int socializar() {
-        return this.necessidadeSono = 115;
+        return this.necessidadeSocial = 100;
     }
 
     /**
@@ -303,7 +303,7 @@ public class Jogador extends Pessoa {
     }
 
     /**
-     * Aumenta a necessidade de sono em 150 pontos.
+     * Aumenta a necessidade de sono em 115 pontos.
      *
      * @return o novo valor da necessidade social
      */

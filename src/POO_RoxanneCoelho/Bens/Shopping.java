@@ -63,7 +63,7 @@ public class Shopping {
     }
 
     /**
-     * Mostra todos os bens do tipo Veículo disponíveis para compra e no final imprime a pergunta pelo ID a comprar ( ou imprimir zero para voltar).
+     * Mostrar todos os bens do tipo Veículo disponíveis para compra e no final imprime a pergunta pelo ID a comprar ( ou imprimir zero para voltar).
      */
 
     public void mostrarVeiculo() {
@@ -108,7 +108,7 @@ public class Shopping {
                     this.jogador.setDinheiro(this.jogador.getDinheiro() - preco); // retira dinheiro
                     this.jogador.adicionarBem(bens); // adiciona ao arrays de bens do jogador
                     this.jogador.setEstatuto(this.jogador.getEstatuto() + bens.getEstatuto()); // aumenta o estatuto do jogador
-                    System.out.println("Parabéns! Comprou " + bens.getNome()); // aparece esta mensagem de confirmação
+                    System.out.println("Parabéns! Compraste " + bens.getNome()); // aparece esta mensagem de confirmação
                 } else { // se não tiver dinheiro suficiente
                     System.out.println("Desculpa, mas não tens dinheiro suficiente para comprar " + bens.getNome());
                 }
@@ -128,7 +128,7 @@ public class Shopping {
         int opcao;
 
         do {
-            System.out.println("\nBem-vindo ao Shopping! O que deseja comprar?");
+            System.out.println("\nBem-vindo ao Shopping! O que queres comprar?");
             System.out.println("1. Imobiliária (Imóveis)");
             System.out.println("2. Stand de Veículos (Veículos)");
             System.out.println("3. Fashion Outlet (Acessórios de Moda)");
